@@ -1,11 +1,16 @@
 <?php
+session_start();
+if (!isset($_SESSION["username"])) {
+    header("location: login.php");
+}
 require_once('../config.php');
-$id = $_GET['id'];
+if (isset($_GET['id']))
+    $id = $_GET['id'];
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$stmt = $conn->prepare("SELECT * FROM etudiant WHERE num_insc=?");
+$stmt = $conn->prepare("SELECT * FROM etudiant WHERE id_etudiant=?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -32,17 +37,18 @@ mysqli_close($conn);
     <link rel="stylesheet" href="../CSS/all.css">
     <link rel="stylesheet" href="../CSS/foldertemplate.css">
     <link rel="stylesheet" href="../fontawesome-free-6.4.0-web/css/all.min.css">
-    <script src="/Mémoire/Scripts/script.js" defer></script>
+    <script src="/memoire/Scripts/script.js" defer></script>
     <title>Document</title>
 </head>
 
 <body>
     <?php include('../header.php') ?>
-    <header class="header"><?= $row['nom'] ?>
-
-    </header>
     <div class="history-display-grid">
-        <a class="add" href="ajoutervisite.php">
+        <a class="history" href="#">
+            <div class="preview"></div>
+            <div class="date">abc</div>
+        </a>
+        <a class="add flex-center" href="#">
             <div>
                 <i class="fa-solid fa-plus"></i>
             </div>

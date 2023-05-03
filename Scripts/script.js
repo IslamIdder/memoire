@@ -1,21 +1,23 @@
-//#region Gear button animation
-const settingsButton = document.querySelector(".settings-button")
+
+
+const states = document.querySelectorAll('path');
+states.forEach(e => {
+    e.addEventListener('mouseover', function () {
+        e.style.fill = "#fff";
+    })
+})
+//#region Gear on-click
+const settingsButton = document.querySelector(".user-settings")
+const dropDown = document.querySelector(".dropdown-menu")
 settingsButton.addEventListener('click', function () {
-    const dropDown = document.querySelector(".dropdown-menu")
     dropDown.classList.toggle('shown');
 })
-const gear = document.querySelector('.user-settings');
-
-gear.addEventListener('mouseout', () => {
-    setTimeout(function () {
-        gear.classList.add("reverse-spin")
-    }, 200);
-});
-gear.addEventListener('animationend', function () {
-    gear.classList.remove("reverse-spin")
+window.addEventListener("click", function (event) {
+    if (!settingsButton.contains(event.target) && !dropDown.contains(event.target)) {
+        dropDown.classList.remove("shown");
+    }
 });
 // #endregion
-
 
 //#region search-bar dynamic search
 const searchInput = document.querySelector('.search-bar')
@@ -30,7 +32,7 @@ if (searchInput) {
                     searchResultsContainer.innerHTML = this.responseText;
                 }
             };
-            xhr.open("GET", `/Mémoire/search.php?q=${searchTerm}&parse=yes`);
+            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=yes`);
             xhr.send();
         }
         else {
@@ -40,7 +42,7 @@ if (searchInput) {
                     searchResultsContainer.innerHTML = this.responseText;
                 }
             };
-            xhr.open("GET", `/Mémoire/search.php?q=${searchTerm}&parse=no`);
+            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=no`);
             xhr.send();
         }
     });

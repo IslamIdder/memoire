@@ -1,7 +1,7 @@
 
 <?php
+session_start();
 require_once('config.php');
-
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
@@ -15,13 +15,13 @@ $date = $_POST["dob"];
 $id = $_POST["reg-num"];
 
 
-$sql = "INSERT INTO etudiant (num_insc, nom, prenom,date_naissance,wilaya,ecole) VALUES ('$id', '$name', '$surname', '$date', '$wilaya', '$school')";
+$sql = "INSERT INTO etudiant (id_etudiant, nom, prenom,date_naissance,wilaya,ecole) VALUES ('$id', '$name', '$surname', '$date', '$wilaya', '$school')";
 if ($conn->query($sql) === TRUE) {
   // echo "Student created successfully";
 } else {
   echo "Error creating student: " . $conn->error;
 }
-header("Location: Folders/dossier.php?id=" . $id);
+header("Location: Folders/ajoutervisite.php?id=" . $id);
 exit;
 
 $conn->close();

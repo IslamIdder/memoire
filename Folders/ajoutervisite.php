@@ -1,26 +1,32 @@
 <?php
+session_start();
+if (!isset($_SESSION["username"])) {
+    header("location: login.php");
+}
 require_once('../config.php');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-if (isset($_GET))
+$fill =   false;
+if (isset($_GET['id'])) {
     $id = $_GET['id'];
+    $stmt = $conn->prepare("SELECT * FROM etudiant WHERE id_etudiant=?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-$stmt = $conn->prepare("SELECT * FROM etudiant WHERE num_insc=?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
+    if (!$result) {
+        die('Query failed: ' . mysqli_error($conn));
+    }
 
-if (!$result) {
-    die('Query failed: ' . mysqli_error($conn));
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+    }
+
+    $stmt->close();
+    mysqli_close($conn);
+    $fill = true;
 }
-
-if (mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-}
-
-$stmt->close();
-mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -61,12 +67,12 @@ mysqli_close($conn);
                         Dossier Médical scolaire
                     </h1>
                     <div class="flex flex-a-center flex-j-sb">
-                        <div class="info-left">Nom et Prénom: <?= $row['nom'] . " " . $row['prenom'] ?></div>
+                        <div class="info-left">Nom et Prénom: <?php if ($fill) echo $row['nom'] . " " . $row['prenom'] ?></div>
                         <div class="info-right">Prénom du père:</div>
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
-                        <div class="info-left">Né(e) le : <?= $row['date_naissance'] . " à:" ?></div>
-                        <div class="info-right">Wilaya: <?= $row['wilaya'] ?></div>
+                        <div class="info-left">Né(e) le : <?php if ($fill) echo $row['date_naissance'] . " à:" ?></div>
+                        <div class="info-right">Wilaya: <?php if ($fill) echo $row['wilaya'] ?></div>
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
                         <div class="">Adresse des parents:</div>
@@ -86,7 +92,7 @@ mysqli_close($conn);
                             Vaccination
                         </div>
                         <div class="table-row">
-                            <div class="table-element c-5">a</div>
+                            <div class="table-element c-5"></div>
                             <div class="table-element c-5">Vaccins</div>
                             <div class=" table-element c-5 flex flex-column" style="flex-basis:40%;">
                                 Vaccinations

@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION["username"])) {
+    header("location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +16,9 @@
 </head>
 
 <body>
-    <?php include "header.php"; ?>
+    <?php
+    $current = "accueil";
+    include "header.php"; ?>
     <div class="utility flex flex-a-center flex-j-sb">
         <form class="inline">
             <div class="input-icons flex flex-a-center">
@@ -25,7 +33,6 @@
     <div class="liste-etudiants flex-center flex-column">
         <?php
         require_once('config.php');
-
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }

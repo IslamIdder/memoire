@@ -7,11 +7,11 @@ body {
 }
 
 body {
-    background-color: var(--main-bg);
+    background-color: var(--bg-main);
     background-repeat: no-repeat;
     font-family: "proxima nova", sans-serif;
     font-size: var(--font-size-main);
-    color: var(--main-fg);
+    color: var(--fg-main);
 }
 
 .flex {
@@ -65,7 +65,7 @@ body {
 
 /* #region navigation bar */
 .main-header {
-    background-color: var(--main-bg);
+    background-color: var(--bg-main);
     position: sticky;
     top: 0;
     z-index: 99;
@@ -82,20 +82,30 @@ body {
     background-image: linear-gradient(to bottom, rgba(164, 164, 164, 0.594), transparent);
 }
 
+.logo {
+    font-size: 50px;
+}
+
 .header-content {
     width: 100%;
-    margin: 0px 20px 1px 20px;
+    height: 50px;
+    margin: 0px 20px 0px 20px;
 }
 
 .navigation {
-    margin: auto;
+    margin-left: auto;
     margin-right: 0;
+    height: 100%;
+    align-items: flex-end;
+}
+
+.navigation>li {
+    height: 100%;
 }
 
 .nav-element {
     padding: 3px 3px;
     margin: 0 10px;
-    min-height: 50px;
 }
 
 .nav-element:hover {
@@ -106,17 +116,21 @@ body {
     border-bottom: 3px solid var(--color-main);
 }
 
-.reverse-spin {
-    animation: reverse-spin 0.5s linear forwards;
+.settings-button {
+    border-radius: var(--border-radius-main);
+}
+
+.user-settings {
+    cursor: pointer;
+    padding: 7px 10px;
+    border-radius: var(--border-radius-main);
 }
 
 .user-settings:hover {
-    animation: spin 0.5s linear forwards;
+    background: var(--hover-main);
 }
 
 .settings-button {
-    cursor: pointer;
-    padding: 3px 10px;
     position: relative;
 }
 
@@ -124,7 +138,7 @@ body {
     display: none;
     position: absolute;
     font-size: var(--font-size-mini);
-    background-color: var(--main-bg);
+    background-color: var(--bg-main);
     width: 200px;
     border: 1px solid var(--border-strong-gray);
     border-radius: var(--border-radius-main);
@@ -136,7 +150,8 @@ body {
 }
 
 .dropdown-item:hover {
-    background-color: rgb(116, 116, 116);
+    cursor: pointer;
+    background-color: var(--hover-main);
 }
 
 .dropdown-item {
@@ -147,7 +162,6 @@ body {
 /* #endregion */
 
 /* #region utility section */
-
 
 .utility {
     margin: 20px;
@@ -211,6 +225,7 @@ body {
 /* #endregion */
 
 /* #region student display */
+
 .liste-etudiants {
     border: 1px solid var(--border-strong-gray);
     font-size: var(--font-size-mini);
@@ -225,7 +240,8 @@ body {
 }
 
 .dossier-etudiant:hover {
-    opacity: 0.7;
+    /* opacity: 0.7; */
+    background-color: var(--hover-main);
     border-bottom: 2px solid var(--color-main);
 }
 
@@ -265,7 +281,7 @@ body {
 h1 {
     white-space: nowrap;
     align-self: center;
-    margin: 0 0 50px 0;
+    margin: 0 0 30px 0;
 }
 
 .input-container {
@@ -277,7 +293,7 @@ h1 {
     position: absolute;
     top: -13%;
     left: 10px;
-    background-color: var(--main-bg);
+    background-color: var(--bg-main);
     padding: 0 3px;
 }
 
@@ -286,7 +302,7 @@ h1 {
     min-height: 40px;
     border: 1px solid gray;
     border-radius: var(--border-radius-main);
-    background-color: var(--main-bg);
+    background-color: var(--bg-main);
     padding: 4px 10px;
     min-width: 300px;
     width: 100%;
@@ -305,7 +321,7 @@ h1 {
     width: 0;
     flex-grow: 1;
     /* font-size: 5px; */
-    background-color: var(--main-bg);
+    background-color: var(--bg-main);
     margin: 0 0.5em;
     text-align: center;
     font-size: 1em;
@@ -326,6 +342,56 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* #endregion */
 
+/* #region dossier */
+
+.history-display-grid {
+    display: grid;
+    margin: 10px;
+    grid-template-columns: repeat(auto-fit, 200px);
+    gap: 10px;
+}
+
+.history-display-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.history {
+    min-width: 200px;
+    cursor: pointer;
+}
+
+.history:hover {
+    opacity: 0.7;
+}
+
+.preview {
+    background-color: gray;
+    border-radius: 5px;
+    min-height: 200px;
+}
+
+.date {
+    text-align: center;
+}
+
+.add {
+    background-color: blue;
+    border-radius: 5px;
+    opacity: 0.2;
+    font-size: 50px;
+    color: white;
+    min-width: 200px;
+    height: 200px;
+}
+
+.add:hover {
+    opacity: 0.7;
+}
+
+/* #endregion */
+
+/* #region overview */
 .slider-container {
     align-items: center;
     height: 100%;
@@ -444,24 +510,14 @@ input[type="number"]::-webkit-outer-spin-button {
     max-width: 100px;
 }
 
-@keyframes spin {
-    from {
-        transform: rotate(0)
-    }
-
-    to {
-        transform: rotate(60deg);
-    }
+/* #endregion */
+g {
+    position: relative;
 }
 
-@keyframes reverse-spin {
-    from {
-        transform: rotate(60deg)
-    }
-
-    to {
-        transform: rotate(0);
-    }
+title {
+    position: absolute;
+    display: none;
 }
 
 ul {
@@ -497,7 +553,6 @@ input {
 input.table-element {
     border-right: 1px solid black;
     flex-basis: 20%;
-    /* width: 20%; */
 }
 
 
@@ -517,8 +572,9 @@ button {
     --border-radius-main: 5px;
     --border-radius-button: 10px;
     --color-main: rgb(92, 145, 229);
-    --main-fg: rgb(62, 67, 87);
-    --main-bg: #f5f5f5;
+    --hover-main: rgb(232, 235, 255);
+    --fg-main: rgb(62, 67, 87);
+    --bg-main: #f5f5f5;
     --border-light-gray: rgb(235, 235, 235);
     --border-strong-gray: rgb(197, 205, 223);
 }
