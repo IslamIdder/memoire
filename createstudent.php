@@ -21,7 +21,7 @@ if ($conn->query($sql) === TRUE) {
 } else {
   echo "Error creating student: " . $conn->error;
 }
-header("Location: Folders/ajoutervisite.php?id=" . $id);
+header("Location: Folders/vue-general.php?id=" . $id);
 exit;
 
 $conn->close();

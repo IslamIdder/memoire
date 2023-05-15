@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION["id"])) {
     header("location: login.php");
 }
-$id_docteur = $_GET['id'];
+$id_directeur =  $_GET['id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,12 +27,15 @@ $id_docteur = $_GET['id'];
                 <input class="search-bar" placeholder="Rechercher..." type="text">
             </div>
         </form>
+        <!-- <a class="btn" href="studentcreation.php">
+            Ajouter un Etudiant
+        </a> -->
     </div>
-    <div class="dossier-etudiant flex-center header ">
-        <div class="display-info flex-center ">
-            <div class="student-info">ID ecole</div>
-            <div class="student-info">Nom ecole</div>
-            <div class="student-info">DDS</div>
+    <div class="dossier-etudiant flex-center header">
+        <div class=" display-info flex-center ">
+            <div class=" student-info">ID</div>
+            <div class="student-info">Nom classe</div>
+            <div class="student-info">Année</div>
         </div>
     </div>
     <div class="liste-etudiants flex-center flex-column">
@@ -41,14 +44,16 @@ $id_docteur = $_GET['id'];
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $sql = "SELECT * FROM ecole
-        INNER JOIN docteurs
-        on ecole.id_dds = docteurs.id_dds
-        where docteurs.id_docteur = '$id_docteur'";
+        $sql = "SELECT * FROM classe
+        INNER JOIN directeurs
+        on classe.id_ecole = directeurs.id_ecole
+        where directeurs.id_directeur = '$id_directeur'";
         $result = mysqli_query($conn, $sql);
+        if (!$result)
+            echo mysqli_error($conn);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                include 'celluleecole.php';
+                include 'celluleclasse.php';
             }
         } else {
             echo "student list is empty";

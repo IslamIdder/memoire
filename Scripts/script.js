@@ -1,11 +1,25 @@
-
-
-const states = document.querySelectorAll('path');
-states.forEach(e => {
-    e.addEventListener('mouseover', function () {
-        e.style.fill = "#fff";
+//#region student settings
+var studentSettings = document.querySelectorAll('.student-settings');
+console.log(studentSettings)
+studentSettings.forEach(e => {
+    e.addEventListener('mouseenter', function () {
+        var parent = e.parentElement;
+        parent.classList.add('dossier-etudiant-no-hover')
     })
+    e.addEventListener('mouseleave', function () {
+        var parent = e.parentElement;
+        parent.classList.remove('dossier-etudiant-no-hover')
+    })
+    e.addEventListener('click', function () {
+    })
+    window.addEventListener("click", function (event) {
+        if (!e.contains(event.target) && !dropDown.contains(event.target)) {
+        }
+    });
 })
+//#endregion
+
+
 //#region Gear on-click
 const settingsButton = document.querySelector(".user-settings")
 const dropDown = document.querySelector(".dropdown-menu")
@@ -25,6 +39,7 @@ const searchResultsContainer = document.querySelector('.liste-etudiants')
 if (searchInput) {
     searchInput.addEventListener("input", function () {
         const searchTerm = searchInput.value;
+        var classeID = document.getElementById('classeID').innerHTML;
         if (searchTerm.length > 0) {
             const xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
@@ -32,7 +47,7 @@ if (searchInput) {
                     searchResultsContainer.innerHTML = this.responseText;
                 }
             };
-            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=yes`);
+            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=yes&id_classe=${classeID}`);
             xhr.send();
         }
         else {
@@ -42,13 +57,12 @@ if (searchInput) {
                     searchResultsContainer.innerHTML = this.responseText;
                 }
             };
-            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=no`);
+            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=no&id_classe=${classeID}`);
             xhr.send();
         }
     });
 }
 //#endregion
-
 
 //#region dynamic-flex
 // var dynamicFlexes = document.querySelectorAll(".dynamic-flex");
@@ -62,47 +76,5 @@ if (searchInput) {
 //#endregion
 
 
-//#region Medical folder scrolling
-const dossier = document.querySelector('.slider')
-var bodyWidth = document.querySelector('.dossier').offsetWidth;
-window.addEventListener('resize', function () {
-    bodyWidth = document.querySelector('.dossier').offsetWidth;
-    dossier.style.setProperty("--body-width", bodyWidth + "px")
-});
-dossier.style.setProperty("--body-width", bodyWidth + "px")
-const moveNext = document.querySelector('.move-next');
-const movePrevious = document.querySelector('.move-previous');
-document.addEventListener("click", e => {
-    let icon
-    if (e.target.matches(".move")) {
-        icon = e.target
-    } else {
-        icon = e.target.closest(".move")
-    }
-    if (icon != null) {
-        oniconClick(icon)
-    }
-})
-function oniconClick(icon) {
-    const dossierIndex = parseInt(
-        getComputedStyle(dossier).getPropertyValue("--dossier-index")
-    )
-    if (icon.classList.contains("move-previous")) {
-        if (dossierIndex - 1 >= 0) {
-            dossier.style.setProperty("--dossier-index", dossierIndex - 1)
-        }
-        else {
-            dossier.style.setProperty("--dossier-index", dossier.childElementCount - 1)
-        }
 
-    }
-    if (icon.classList.contains("move-next")) {
-        if (dossierIndex < dossier.childElementCount - 1) {
-            dossier.style.setProperty("--dossier-index", dossierIndex + 1)
-        }
-        else {
-            dossier.style.setProperty("--dossier-index", 0)
-        }
-    }
-}
-//#endregion
+

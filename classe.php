@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION["id"])) {
     header("location: login.php");
 }
-$id_docteur = $_GET['id'];
+$id_classe = $_GET['id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,8 +18,8 @@ $id_docteur = $_GET['id'];
 
 <body>
     <?php
-    $current = "accueil";
     include "nav-bar.php"; ?>
+    <div style="display:none" id="classeID"><?php echo $id_classe ?></div>
     <div class="utility flex flex-a-center flex-j-sb">
         <form class="inline">
             <div class="input-icons flex flex-a-center">
@@ -27,13 +27,20 @@ $id_docteur = $_GET['id'];
                 <input class="search-bar" placeholder="Rechercher..." type="text">
             </div>
         </form>
+        <!-- <a class="btn" href="studentcreation.php">
+            Ajouter un Etudiant
+        </a> -->
     </div>
-    <div class="dossier-etudiant flex-center header ">
+    <div class="dossier-etudiant flex-center header">
+        <div class="flex-center" style="width:85px;">Image</div>
         <div class="display-info flex-center ">
-            <div class="student-info">ID ecole</div>
-            <div class="student-info">Nom ecole</div>
-            <div class="student-info">DDS</div>
+            <div class="student-info">Nom</div>
+            <div class="student-info">Prenom</div>
+            <div class="student-info">Inscription number</div>
         </div>
+        <!-- <button class="student-settings">
+        <i class="fa-solid fa-gear "></i>
+    </button> -->
     </div>
     <div class="liste-etudiants flex-center flex-column">
         <?php
@@ -41,14 +48,16 @@ $id_docteur = $_GET['id'];
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $sql = "SELECT * FROM ecole
-        INNER JOIN docteurs
-        on ecole.id_dds = docteurs.id_dds
-        where docteurs.id_docteur = '$id_docteur'";
+        $sql = "SELECT * FROM etudiant
+        INNER JOIN classe
+        on etudiant.id_classe = classe.id_classe
+        and classe.id_classe = '$id_classe'";
         $result = mysqli_query($conn, $sql);
+        if (!$result)
+            echo mysqli_error($conn);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                include 'celluleecole.php';
+                include 'celluleetudiant.php';
             }
         } else {
             echo "student list is empty";
