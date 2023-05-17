@@ -2,7 +2,7 @@
 session_start();
 if (isset($_SESSION["id"])) {
     if ($_SESSION['access_type'] == "docteur")
-        header("location: doctor-front.php");
+        header("location: " . $_SESSION['home']);
     else if ($_SESSION['access_type'] == "directeur")
         header("location: director-front.php");
 }
@@ -11,12 +11,48 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    date_default_timezone_set('Africa/Algiers');
     $id = $_POST["identifiant"];
     $password = $_POST["password"];
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    if (empty($id) || !isset($password)) {
+        $_SESSION["status"] = "Invalid login, please try again empty !!";
+        echo $_SESSION["status"];
+    }
+    $access_type = '';
+    $max_attempts = 5;
+    $lockout_duration = 1 % 120;
+    $stmt = mysqli_prepare($conn, "SELECT attempts,last_attempt_time as last_attempt FROM login_attempts WHERE user_id = ? ;");
+    if (!$stmt) {
+        die('mysqli_prepare() failed: ' . htmlspecialchars(mysqli_error($conn)));
+    }
+    mysqli_stmt_bind_param($stmt, "s", $id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $num_attempts = $row['attempts'];
+        $last_attempt = $row['last_attempt'];
+        if (isset($num_attempts) && $num_attempts >= $max_attempts) {
+            $current_timestamp = date("Y-m-d H:i:s");
+            $lockout_expiration = date("Y-m-d H:i:s", strtotime($last_attempt) + ($lockout_duration * 60));
+            if ($current_timestamp > $lockout_expiration) {
+                $stmt = mysqli_prepare($conn, "DELETE FROM login_attempts  WHERE user_id = ?");
+                mysqli_stmt_bind_param($stmt, "s", $id);
+                mysqli_stmt_execute($stmt);
+            } else {
+                $time_remaining = strtotime($lockout_expiration) - strtotime($current_timestamp);
+                $_SESSION["status"] = "You have exceeded the maximum number of login attempts.
+             Please try again later.  " . $time_remaining . " seconds";
+                echo $time_remaining;
+                // exit();
+            }
+        }
+    }
     if (strcasecmp(substr($id, 0, 1), 'M') === 0) {
-        $stmt = $conn->prepare("SELECT * FROM docteurs WHERE id_docteur=? and mdp_docteur=?");
         $access_type = 'docteur';
         $att_name = 'id_docteur';
+        $table_name = 'docteurs';
         $direction = "doctor-front";
         $type = substr($id, 0, 2);
         switch ($type) {
@@ -38,38 +74,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
         }
     } elseif (strcasecmp(substr($id, 0, 1), 'P') === 0) {
-        $stmt = $conn->prepare("SELECT * FROM parents WHERE id_parent=? and mdp_parent=?");
         $access_type = 'parent';
         $att_name = 'id_parent';
+        $table_name = 'parents';
         $direction = "/Folders/dossier?id=" . $id;
     } elseif (strcasecmp(substr($id, 0, 1), 'D') === 0) {
-        $stmt = $conn->prepare("SELECT * FROM directeurs WHERE id_directeur=? and mdp_directeur=?");
         $access_type = 'directeur';
         $att_name = 'id_directeur';
+        $table_name = 'directeurs';
         $direction = "director-front";
+    }
+    if (isset($access_type)) {
+        $row_password = "mdp_" . $access_type;
+        $sql = "SELECT * FROM " . $table_name . " WHERE " . $att_name . " = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            if (password_verify($row[$row_password], $hashed_password)) {
+                $stmt = mysqli_prepare($conn, "DELETE FROM login_attempts  WHERE user_id = ?");
+                mysqli_stmt_bind_param($stmt, "s", $id);
+                mysqli_stmt_execute($stmt);
+                $_SESSION["access_type"] = $access_type;
+                if (isset($doctor_type))
+                    $_SESSION["doctor_type"] = $doctor_type;
+                $_SESSION["id"] = $row[$att_name];
+                $home = $direction . ".php?id=" . $_SESSION['id'];
+                $_SESSION['home'] = $home;
+                header("Location: " . $home);
+                exit();
+            } else {
+                echo "Incorrect username or password";
+                $stmt = mysqli_prepare($conn, "INSERT INTO login_attempts (user_id, attempts, last_attempt_time) VALUES (?, 1, NOW()) ON DUPLICATE KEY UPDATE attempts = attempts + 1, last_attempt_time = NOW();");
+                if (!$stmt) {
+                    //  die('mysqli_prepare() failed: ' . htmlspecialchars(mysqli_error($conn)));
+                    echo mysqli_error($conn);
+                }
+                mysqli_stmt_bind_param($stmt, "s", $id);
+                mysqli_stmt_execute($stmt);
+                $_SESSION["status"] = "Invalid login credentials. Please try again.";
+                // exit();
+            }
+        } else {
+            echo "Incorrect username or password";
+        }
     } else {
-        header("location: login.php");
-        exit;
-    }
-
-    $stmt->bind_param("ss", $id, $password);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if (!$result) {
-        die('Query failed: ' . mysqli_error($conn));
-    }
-    if (mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $_SESSION["id"] = $row[$att_name];
-        $_SESSION["access_type"] =  $access_type;
-        if (isset($doctor_type))
-            $_SESSION["doctor_type"] = $doctor_type;
-        $home = $direction . ".php?id=" . $_SESSION['id'];
-        $_SESSION['home'] = $home;
-        header("Location: " . $home);
-        $stmt->close();
-        mysqli_close($conn);
-        exit;
+        echo "Incorrect username or password";
     }
     $stmt->close();
     mysqli_close($conn);
@@ -97,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="password" autocomplete="off" id="password" name="password" class="input">
             <label class="lbl" for="password">Mot de passe</label>
         </div>
-        <button type="submit" class="btn">Confirmer</button>
+        <button type="submit" class="btn" name="submit">Confirmer</button>
     </form>
 </body>
 

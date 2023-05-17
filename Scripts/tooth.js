@@ -86,22 +86,28 @@ document.addEventListener("click", function (event) {
         selection.style.setProperty("display", "none")
     }
 });
-const sendButton = document.querySelector("#myButton")
-sendButton.addEventListener('click', function () {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../Folders/ajouter-dent.php?id=' + id, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.redirect) {
-                window.location.href = response.redirect;
-            }
-        }
-        else {
-            console.log('Request failed.  Returned status of ' + xhr.status);
-        }
-    };
-    xhr.send(JSON.stringify(tooth_array));
 
-})
+// const sendButton = document.querySelector("#myButton")
+function setMyArrayValue() {
+    document.getElementById('tooth').value = JSON.stringify(tooth_array);
+}
+
+
+// sendButton.addEventListener('click', function () {
+//     var xhr = new XMLHttpRequest();
+//     xhr.open('POST', '../Folders/ajouter-dent.php?id=' + id, true);
+//     xhr.setRequestHeader('Content-Type', 'application/json');
+//     xhr.onload = function () {
+//         if (xhr.status === 200) {
+//             var response = JSON.parse(xhr.responseText);
+//             if (response.redirect) {
+//                 window.location.href = response.redirect;
+//             }
+//         }
+//         else {
+//             console.log('Request failed.  Returned status of ' + xhr.status);
+//         }
+//     };
+//     xhr.send(JSON.stringify(tooth_array));
+
+// })

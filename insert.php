@@ -1,32 +1,55 @@
-
 <?php
 require_once('config.php');
-$wilayas = array("Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar", "Blida", "Bouira", "Tamanrasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi Ouzou", "Alger", "Djelfa", "Jijel", "Sétif", "Saïda", "Skikda", "Sidi Bel Abbès", "Annaba", "Guelma", "Constantine", "Médéa", "Mostaganem", "M'Sila", "Mascara", "Ouargla", "Oran", "El Bayadh", "Illizi", "Bordj Bou Arréridj", "Boumerdès", "El Tarf", "Tindouf", "Tissemsilt", "El Oued", "Khenchela", "Souk Ahras", "Tipaza", "Mila", "Aïn Defla", "Naâma", "Aïn Témouchent", "Ghardaïa", "Relizane");
-$names = array("Amina", "Hakim", "Nour", "Younes", "Zahra", "Ali", "Fatima", "Karim", "Sara", "Mehdi");
-$familyNames = array("Boualem", "Saidi", "Ait Ahmed", "Ait Hamouda", "Benamar", "Bouazza", "Boukadoum", "Boukhalfa", "Cherif", "Ziane");
-$start_date = '2002-01-01';
-$end_date = '2015-01-01';
-
-$query = "SELECT DISTINCT id_classe FROM classe";
+$start_date = '2023-01-01';
+$end_date = '2023-5-16';
+$maladies = ["neurologique", "endocrinien", "rachis", "peau", "ophalmique", "orl", "respiratoire", "cardio", "digestif", "urinaire", "genital"];
+$query = "SELECT DISTINCT id_etudiant FROM etudiant";
 $result = mysqli_query($conn, $query);
-if (!$result)
+if (!$result) {
     echo mysqli_error($conn);
+    exit;
+}
 while ($row = mysqli_fetch_assoc($result)) {
-    $id_classe = $row['id_classe'];
-    $nbr_students_per_classe = rand(2, 5);
-    for ($i = 1; $i <= $nbr_students_per_classe; $i++) {
-        $wilaya = $wilayas[rand(0, 47)];
-        $nom_etudiant = $names[rand(0, 9)];
-        $prenom_etudiant = $familyNames[rand(0, 9)];
+    $id_etudiant = $row['id_etudiant'];
+    for ($i = 1; $i <= 2; $i++) {
+        $OG = rand(1, 10);
+        $id_docteur = "mg0";
+        $OD = rand(1, 10);
+        $age = rand(6, 18);
+        $height = rand(150, 200);
+        $weight = rand(40, 150);
+        $tension = rand(1, 10);
+        $type_visite = "generaliste";
         $timestamp = mt_rand(strtotime($start_date), strtotime($end_date));
         $date_naissance = date('Y-m-d', $timestamp);
-        $stmt = $conn->prepare("INSERT INTO etudiant (nom,prenom,wilaya,date_naissance,id_classe) VALUES (?,?,?,?,?)");
-        $stmt->bind_param("sssss", $nom_etudiant, $prenom_etudiant, $wilaya, $date_naissance, $id_classe);
+        $stmt = $conn->prepare("INSERT INTO visites (visuelle_OD, visuelle_OG, tention, age, type_visite, height, weight, date_visite, id_etudiant, id_docteur) VALUES (?,?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("iiiisiisis", $OD, $OG, $tension, $age, $type_visite, $height, $weight, $date_naissance, $id_etudiant, $id_docteur);
         $stmt->execute();
         if ($stmt->error) {
             echo "Error: " . $stmt->error;
             exit;
         }
+        $id_visite = $stmt->insert_id;
+
+        $maladies_copy = $maladies; // Create a copy of the maladies array
+
+        for ($j = 1; $j <= 2; $j++) {
+            $randomIndex = array_rand($maladies_copy);
+            $nom_maladie = $maladies_copy[$randomIndex];
+            unset($maladies_copy[$randomIndex]); // Remove the selected maladie from the copy array
+            $maladies_copy = array_values($maladies_copy); // Re-index the copy array
+
+            $id_maladie = $id_visite . "_" . $nom_maladie;
+            $stmt2 = $conn->prepare("INSERT INTO maladie (nom_maladie, id_visite, id_maladie) VALUES (?,?,?)");
+            $stmt2->bind_param("sis", $nom_maladie, $id_visite, $id_maladie);
+            $stmt2->execute();
+            if ($stmt2->error) {
+                echo "Error: " . $stmt2->error;
+                exit;
+            }
+        }
     }
 }
+?>
+
 $conn->close();

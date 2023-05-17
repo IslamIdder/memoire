@@ -13,7 +13,6 @@ if (mysqli_num_rows($result) > 0) :
     $finish = 5;
     for ($i = 1; $i <= $num_pages; $i++) :
 ?>
-
         <div class="dossier flex flex-j-center">
             <div class="page-container flex flex-column ">
                 <h3 class="flex-center">Examen Medical de depistage</h3>
@@ -97,6 +96,43 @@ if (mysqli_num_rows($result) > 0) :
                         echo '<div class="table-element"></div>';
                         echo '<div class="table-element"></div>';
                         echo '<div class="table-element"></div>';
+                        $j++;
+                    }
+                    $start = $finish;
+                    $finish = $finish + 5;
+                    ?>
+                </div>
+                <h3 class="flex-center">Antécédents de l'élève</h3>
+                <div class="table-med t-11">
+                    <div class="table-element">app.Neurologique</div>
+                    <div class="table-element">app.Endocrinien</div>
+                    <div class="table-element">Rachis et membres</div>
+                    <div class="table-element">Peau et phanères</div>
+                    <div class="table-element">app.Ophtalmique</div>
+                    <div class="table-element">app.ORL</div>
+                    <div class="table-element">app.Respiratoire</div>
+                    <div class="table-element">app.Cardio-vasculaire</div>
+                    <div class="table-element">app.Digestif</div>
+                    <div class="table-element">app.Urinaire</div>
+                    <div class="table-element">app.Génital</div>
+                    <?php
+                    for ($j = 0; $j < $len; $j++) {
+                        echo '<div class="table-element"> ' . format($rows[$j]['date_visite']) . '</div>';
+                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
+                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
+                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
+                        echo '<div class="table-element"> ' . format($rows[$j]['date_visite']) . '</div>';
+                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
+                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
+                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
+                        echo '<div class="table-element"> ' . format($rows[$j]['date_visite']) . '</div>';
+                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
+                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
+                    }
+
+                    while ($j < 5) {
+                        for ($i = 1; $i <= 11; $i++)
+                            echo '<div class="table-element"></div>';
                         $j++;
                     }
                     $start = $finish;

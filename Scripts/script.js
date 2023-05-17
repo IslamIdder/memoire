@@ -75,6 +75,14 @@ if (searchInput) {
 // }
 //#endregion
 
+const container = document.querySelector('.t-11');
 
+for (let i = 1; i <= 11; i++) {
+    const selector = `.t-11>*:nth-child(11n + ${i})`;
+    const rule = `grid-row: ${i}/${i + 1};`;
 
+    const style = document.createElement('style');
+    style.innerHTML = `${selector} { ${rule} }`;
+    document.head.appendChild(style);
+}
 

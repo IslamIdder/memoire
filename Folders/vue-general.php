@@ -86,7 +86,13 @@ if (mysqli_num_rows($result) > 0) {
                         <div class="table-element "></div>
                         <div class="table-element ">Vaccins</div>
                         <div class=" table-element span-2">
-                            Vaccinations
+                            <div class="flex flex-column" style="width:100%;">
+                                <div style="border-bottom:1px solid black">Vaccins</div>
+                                <div class="flex">
+                                    <div class="fb-50">Fait le</div>
+                                    <div class="fb-50" style="border-left:1px solid black">A refaire le</div>
+                                </div>
+                            </div>
                         </div>
                         <div class="table-element ">Observations</div>
                         <div class="table-element ">Naissance</div>

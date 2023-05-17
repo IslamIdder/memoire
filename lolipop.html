@@ -11,7 +11,7 @@
 
 <body style="position:relative;">
 
-    <div id="state-name" style="position:absolute;opacity:0;">
+    <div id="state-name" style="position:absolute;display:none;">
         <div>name</div>
         <div class="">Nombre de cas:
 
@@ -41,12 +41,12 @@
             document.getElementById('state-name').style.top = y - 60 + 'px'
             document.getElementById('state-name').style.left = x + 10 + 'px'
         }
-        document.getElementById("state-name").style.opacity = 1
+        document.getElementById("state-name").style.display = "block"
         document.getElementById("state-name").children[0].innerHTML = `${this.getAttribute("data-nom-wilaya")}`
         document.getElementById("state-name").children[1].innerHTML = `Nombre de cas: ${this.getAttribute("data-nbr-cas")}`
     }
     let mouseLeave = function (d) {
-        document.getElementById("state-name").style.opacity = 0
+        document.getElementById("state-name").style.display = "none"
     }
     var wilayas = ["Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar", "Blida", "Bouira", "Tamanrasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi Ouzou", "Alger", "Djelfa", "Jijel", "Sétif", "Saïda", "Skikda", "Sidi Bel Abbès", "Annaba", "Guelma", "Constantine", "Médéa", "Mostaganem", "M'Sila", "Mascara", "Ouargla", "Oran", "El Bayadh", "Illizi", "Bordj Bou Arréridj", "Boumerdès", "El Tarf", "Tindouf", "Tissemsilt", "El Oued", "Khenchela", "Souk Ahras", "Tipaza", "Mila", "Aïn Defla", "Naâma", "Aïn Témouchent", "Ghardaïa", "Relizane"];
     var data = [];
