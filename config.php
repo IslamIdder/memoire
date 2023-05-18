@@ -18,4 +18,10 @@ foreach ($result as $row) {
 
 $result->close();
 // $conn->close();
+
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+    echo json_encode($data);
+}
+
+
 // echo json_encode($data);

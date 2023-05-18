@@ -35,6 +35,7 @@ if (mysqli_num_rows($result) > 0) {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../Scripts/weight.js" charset="utf-8"></script>
+    <script src="../Scripts/height.js" charset="utf-8"></script>
     <script src="../Scripts/script.js" defer></script>
     <script src="../Scripts/dossier.js" defer></script>
     <title>Document</title>
@@ -154,18 +155,16 @@ if (mysqli_num_rows($result) > 0) {
                 </div>
             </div>
             <?php include('afficher-examens.php'); ?>
-            <?php include('afficher-visites-dentaires.php');  ?>
-            <!-- <div class="dossier  flex flex-j-center">
+            <div class="dossier  flex flex-j-center">
                 <div class="page-container flex flex-column ">
                     <div class="chartCard">
                         <div class="chartBox">
-                            <canvas id="myChart1"></canvas>
+                            <canvas height='200%' id="myChart"></canvas>
                         </div>
                     </div>
                     <style>
                         .chartCard {
                             height: 100%;
-                            background: rgba(54, 162, 235, 0.2);
                             display: flex;
                             align-items: center;
                             justify-content: center;
@@ -173,15 +172,45 @@ if (mysqli_num_rows($result) > 0) {
 
                         .chartBox {
                             width: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
                             height: 100%;
                             padding: 20px;
-                            border-radius: 20px;
-                            border: solid 3px rgba(54, 162, 235, 1);
                             background: white;
                         }
                     </style>
                 </div>
-            </div> -->
+            </div>
+            <div class="dossier  flex flex-j-center">
+                <div class="page-container flex flex-column ">
+                    <div class="chartCard">
+                        <div class="chartBox">
+                            <canvas height='200%' id="myChart1"></canvas>
+                        </div>
+                    </div>
+                    <style>
+                        .chartCard {
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
+                        .chartBox {
+                            width: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            height: 100%;
+                            padding: 20px;
+                            background: white;
+                        }
+                    </style>
+                </div>
+            </div>
+            <?php include('afficher-visites-dentaires.php');  ?>
+
         </div>
         <button class="move move-next">
             <i class="fa-solid fa-arrow-right"></i>

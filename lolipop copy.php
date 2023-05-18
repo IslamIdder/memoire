@@ -107,7 +107,7 @@
                 return y(d.wilaya);
             })
             .attr("r", "5")
-            .style("fill", "#69b3a2")
+            .style("fill", "#5c91e5")
             .attr("stroke", "black")
 
         d3.selectAll("circle")

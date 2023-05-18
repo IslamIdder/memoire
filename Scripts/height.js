@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    url: "../chart.php",
+    url: "../config.php",
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -24,6 +24,7 @@ $(document).ready(function () {
             data: [, , , 97, 105, 110, 117, 124, 130, 136, 142, 150, 157, 165, 174, 180, 184, 185, 187],
             fill: false,
             borderColor: 'blue',
+            borderWidth: 0.6,
             tension: 0.1
           },
           {
@@ -31,6 +32,7 @@ $(document).ready(function () {
             data: [, , , 91, 97, 105, 110, 116, 122, 127, 134, 140, 146, 152, 155, 157, 160, 162, 163],
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 0.5,
             tension: 0.1
           },
           {
@@ -38,6 +40,7 @@ $(document).ready(function () {
             data: [, , , 91, 97, 105, 110, 116, 122, 126, 132, 137, 145, 152, 160, 165, 170, 172, 174],
             fill: false,
             borderColor: 'rgb(255, 99, 132)',
+            borderWidth: 0.5,
             tension: 0.1
           },
           {
@@ -45,12 +48,14 @@ $(document).ready(function () {
             data: [, , , 85, 90, 95, 100, 104, 107, 114, 117, 123, 131, 137, 145, 147, 150, 151, 152],
             fill: false,
             borderColor: 'red',
+            borderWidth: 0.5,
             tension: 0.1
           },
           {
             label: 'Your height',
             data: heightData,
             fill: false,
+
             borderColor: 'green',
             tension: 0.1
           }
@@ -63,12 +68,24 @@ $(document).ready(function () {
         type: 'line',
         data: chartData,
         options: {
+          elements: {
+            point: {
+              radius: 0
+            }
+
+          },
 
           scales: {
             x: {
+              grid: {
+                display: false
+              },
               stacked: true
             },
             y: {
+              grid: {
+                display: false
+              },
               ticks: {
                 min: 80,
                 max: 190,

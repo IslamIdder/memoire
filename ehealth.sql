@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 17 mai 2023 à 09:50
+-- Généré le : jeu. 18 mai 2023 à 08:52
 -- Version du serveur : 8.0.32
 -- Version de PHP : 8.0.26
 
@@ -319,6 +319,27 @@ CREATE TABLE IF NOT EXISTS `dent` (
   PRIMARY KEY (`id_dent`),
   KEY `id_visite` (`id_visite`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `dent`
+--
+
+INSERT INTO `dent` (`id_visite`, `numero_dent`, `type_dent`, `id_dent`) VALUES
+(3410, 1, 'cavitée', '3410_1'),
+(3410, 15, 'obturée', '3410_15'),
+(3411, 1, 'cavitée', '3411_1'),
+(3411, 14, 'cavitée', '3411_14'),
+(3411, 15, 'cavitée', '3411_15'),
+(3411, 16, 'cavitée', '3411_16'),
+(3411, 17, 'cavitée', '3411_17'),
+(3411, 18, 'cavitée', '3411_18'),
+(3411, 19, 'cavitée', '3411_19'),
+(3411, 2, 'cavitée', '3411_2'),
+(3411, 3, 'cavitée', '3411_3'),
+(3411, 30, 'cavitée', '3411_30'),
+(3411, 31, 'cavitée', '3411_31'),
+(3411, 32, 'cavitée', '3411_32'),
+(3411, 5, 'absente', '3411_5');
 
 -- --------------------------------------------------------
 
@@ -7869,7 +7890,7 @@ CREATE TABLE IF NOT EXISTS `visites` (
   PRIMARY KEY (`id_visite`),
   KEY `id_docteur` (`id_docteur`),
   KEY `id_etudiant` (`id_etudiant`)
-) ENGINE=InnoDB AUTO_INCREMENT=3410 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3412 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `visites`
@@ -11195,7 +11216,9 @@ INSERT INTO `visites` (`id_visite`, `date_visite`, `id_etudiant`, `height`, `wei
 (3406, '2023-01-19', 100000661, 189, 65, 'mg0', 'generaliste', 6, 10, 7, 3, NULL),
 (3407, '2023-04-20', 100000661, 151, 83, 'mg0', 'generaliste', 18, 9, 5, 8, NULL),
 (3408, '2023-01-03', 100000662, 188, 84, 'mg0', 'generaliste', 17, 10, 7, 6, NULL),
-(3409, '2023-01-23', 100000662, 169, 145, 'mg0', 'generaliste', 8, 6, 9, 6, NULL);
+(3409, '2023-01-23', 100000662, 169, 145, 'mg0', 'generaliste', 8, 6, 9, 6, NULL),
+(3410, '2023-05-17', 100000000, NULL, NULL, 'md0', 'dentiste', NULL, NULL, NULL, NULL, ''),
+(3411, '2023-05-17', 100000000, NULL, NULL, 'md0', 'dentiste', NULL, NULL, NULL, NULL, 'non acceptable');
 
 -- --------------------------------------------------------
 
