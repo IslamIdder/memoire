@@ -21,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die('Query failed: ' . mysqli_error($conn));
     }
     if (mysqli_num_rows($result) > 0) {
-        $result_str = "";
         while ($row = mysqli_fetch_assoc($result)) {
             $stat = new stdClass();
             $stat->wilaya = $row['nom_wilaya'];
@@ -32,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $data = [];
         echo json_encode($data);
+        exit();
     }
     $json = json_encode($data);
     echo $json;

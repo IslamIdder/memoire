@@ -3,9 +3,7 @@ session_start();
 if (!isset($_SESSION["id"])) {
     header("location: login.php");
 }
-if (!isset($_GET['id']))
-    header("location: doctor-front.php?id=" . $_SESSION['id']);
-$id_docteur = $_GET['id'];
+$id_docteur = $_SESSION['id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">

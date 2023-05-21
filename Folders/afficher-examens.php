@@ -32,7 +32,7 @@ if (mysqli_num_rows($result) > 0) :
                     }
                     for ($j = 0; $j < $len; $j++) {
                         $date_naissance = $rows[$j]['date_naissance'];
-                        $currentDate = date('Y-m-d');
+                        $currentDate = $rows[$j]['date_visite'];
                         $diff = date_diff(date_create($date_naissance), date_create($currentDate));
                         $age = $diff->y;
                         echo '<div class="table-element"> ' . format($rows[$j]['date_visite']) . '</div>';
@@ -46,20 +46,6 @@ if (mysqli_num_rows($result) > 0) :
                         echo '<div class="table-element"></div>';
                         $j++;
                     }
-                    // $id_visite = $row1['id_visite'];
-                    // $stmt = $conn->prepare("SELECT * FROM maladie where maladie.id_visite = ?");
-                    // $stmt->bind_param("i", $id_visite);
-                    // $stmt->execute();
-                    // $result2 = $stmt->get_result();
-                    // $tooth_array = array();
-                    // while ($row = $result2->fetch_assoc()) {
-                    // if ($row['type_dent']) {
-                    // $dent = new stdClass();
-                    // $dent->type = $row['type_dent'];
-                    // $dent->number = $row['numero_dent'];
-                    // $tooth_array[] = $dent;
-                    // }
-                    // }
                     ?>
                 </div>
                 <div class="table-med t-4">
@@ -91,10 +77,32 @@ if (mysqli_num_rows($result) > 0) :
                     <div class="table-element">Epilipsie</div>
                     <?php
                     for ($j = 0; $j < $len; $j++) {
-                        echo '<div class="table-element"> ' . format($rows[$j]['date_visite']) . '</div>';
-                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
-                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
-                        echo '<div class="table-element">' . $rows[$j]['tention'] . '</div>';
+
+                        $antecedents_par_visite = array_fill(0, 4, "/");
+                        $id_visite = $rows[$j]['id_visite'];
+                        $sql = "SELECT * from antecedents where antecedents.id_visite = '$id_visite'";
+                        $ant = mysqli_query($conn, $sql);
+                        while ($antecedent = mysqli_fetch_assoc($ant)) {
+                            $num = $antecedent['num_antecedent'];
+                            switch ($num) {
+                                case 0:
+                                    $antecedents_par_visite[0] = $antecedent['date_antecedent'];
+                                    break;
+                                case 1:
+                                    $antecedents_par_visite[1] = $antecedent['date_antecedent'];
+                                    break;
+                                case 2:
+                                    $antecedents_par_visite[2] = $antecedent['frequence'];
+                                    break;
+                                case 3:
+                                    $antecedents_par_visite[3] = $antecedent['frequence'];
+                                    break;
+                            }
+                        }
+                        echo '<div class="table-element"> ' . $antecedents_par_visite[0] . '</div>';
+                        echo '<div class="table-element">' . $antecedents_par_visite[1] . '</div>';
+                        echo '<div class="table-element">' . $antecedents_par_visite[2] . '</div>';
+                        echo '<div class="table-element">' . $antecedents_par_visite[3] . '</div>';
                     }
 
                     while ($j < 5) {
@@ -104,8 +112,8 @@ if (mysqli_num_rows($result) > 0) :
                         echo '<div class="table-element"></div>';
                         $j++;
                     }
-                    $start = $finish;
-                    $finish = $finish + 5;
+                    // $start = $finish;
+                    // $finish = $finish + 5;
                     ?>
                 </div>
                 <h3 class="flex-center">Examen Médical</h3>
@@ -182,8 +190,7 @@ if (mysqli_num_rows($result) > 0) :
                             echo '<div class="table-element"></div>';
                         $j++;
                     }
-                    $start = $finish;
-                    $finish = $finish + 5;
+                    $start = $start + 5;
                     ?>
                 </div>
             </div>

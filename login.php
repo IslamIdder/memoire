@@ -1,10 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION["id"])) {
-    if ($_SESSION['access_type'] == "docteur")
-        header("location: " . $_SESSION['home']);
-    else if ($_SESSION['access_type'] == "directeur")
-        header("location: director-front.php");
+    header("location: " . $_SESSION['home']);
 }
 require_once('config.php');
 if ($conn->connect_error) {
@@ -101,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (isset($doctor_type))
                     $_SESSION["doctor_type"] = $doctor_type;
                 $_SESSION["id"] = $row[$att_name];
-                $home = $direction . ".php?id=" . $_SESSION['id'];
+                $home = $direction . ".php";
                 $_SESSION['home'] = $home;
                 header("Location: " . $home);
                 exit();

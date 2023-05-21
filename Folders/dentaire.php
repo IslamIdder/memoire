@@ -20,14 +20,6 @@ session_start();
     <div id="id_etudiant" data-id="<?php echo $_GET['id']; ?>"></div>
     <form method="POST" action="ajouter-dent.php?id=<?php echo $_GET['id']; ?> " onsubmit="setMyArrayValue()" class=" flex-center " style=" height:calc(100% - 51px);gap:100px;">
         <div class="section1">
-            <!-- <div class="input-container">
-                <label>Date:</label>
-                <input type="date" name="date">
-            </div> -->
-            <!-- <div class="input-container">
-                <label>class:</label>
-                <input type="text" name="class">
-            </div> -->
             <label>Hygiene Bucco-dentaire:</label>
             <div class="va-header">
                 <select name="hygiene" class="select">

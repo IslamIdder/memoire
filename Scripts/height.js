@@ -1,10 +1,12 @@
+var id = document.querySelector('#student_id').innerHTML
+console.log(id)
+link = "../Folders/chart.php?id=" + id
 $(document).ready(function () {
   $.ajax({
-    url: "../config.php",
+    url: link,
     type: "GET",
     dataType: "json",
     success: function (data) {
-      console.log(data);
       var height = data.map(function (obj) {
         h = obj.height
         return h;
@@ -15,7 +17,6 @@ $(document).ready(function () {
       });
       v = parseInt(age[0]);
       var heightData = new Array(v).fill(null).concat(height);
-      console.log(heightData);
       var chartData = {
         labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18'],
         datasets: [
@@ -108,10 +109,8 @@ $(document).ready(function () {
 
         }
       });
-      console.log(height);
     },
     error: function (xhr, status, error) {
-      console.log(error);
     }
   });
 });

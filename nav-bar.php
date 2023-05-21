@@ -12,14 +12,17 @@
                     Accueil
                 </a>
             </li>
-            <li class="nav-element flex-center <?php if (isset($current)) {
-                                                    if ($current == 'statistiques') echo 'current';
-                                                }
-                                                ?>">
-                <a href="/memoire/statistiques.php">
-                    Statistiques
-                </a>
-            </li>
+
+            <?php if ($_SESSION['access_type'] == "directeur") : ?>
+                <li class="nav-element flex-center <?php if (isset($current)) {
+                                                        if ($current == 'statistiques') echo 'current';
+                                                    }
+                                                    ?>">
+                    <a href="/memoire/statistiques.php">
+                        Statistiques
+                    </a>
+                </li>
+            <?php endif; ?>
             <li class="flex-center">
                 <div class="settings-button">
                     <i class="fa-solid fa-gear user-settings"></i>

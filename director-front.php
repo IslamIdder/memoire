@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION["id"])) {
     header("location: login.php");
 }
-$id_directeur =  $_GET['id'];
+$id_directeur =  $_SESSION['id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,9 +27,6 @@ $id_directeur =  $_GET['id'];
                 <input class="search-bar" placeholder="Rechercher..." type="text">
             </div>
         </form>
-        <!-- <a class="btn" href="studentcreation.php">
-            Ajouter un Etudiant
-        </a> -->
     </div>
     <div class="dossier-etudiant flex-center header">
         <div class=" display-info flex-center ">

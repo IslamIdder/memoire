@@ -5,7 +5,7 @@
 
     </div>
 </div> -->
-<div id="lolipop" style="display:none;"></div>
+<div id="lolipop" class="chart" style="display:none;"></div>
 <script>
     function createLolipopChart(data) {
         var margin = {
@@ -16,8 +16,6 @@
             },
             width = 700 - margin.left - margin.right,
             height = 800 - margin.top - margin.bottom;
-
-        // append the svg object to the body of the page
         var svg = d3.select("#lolipop")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -43,8 +41,6 @@
         data.sort(function(b, a) {
             return a.value - b.value;
         });
-
-        // Add X axis
         var x = d3.scaleLinear()
             .domain([0, d3.max(data, function(d) {
                 if (d.value === 0)
@@ -70,9 +66,6 @@
             .call(d3.axisLeft(y))
             .selectAll("text")
             .style("font-size", "12px");
-
-
-        // Lines
         svg.selectAll("myline")
             .data(data)
             .enter()
@@ -88,8 +81,6 @@
                 return y(d.wilaya);
             })
             .attr("stroke", "grey")
-
-        // Circles
         svg.selectAll("mycircle")
             .data(data)
             .enter()
@@ -115,7 +106,7 @@
             .on("mouseleave", lolipop_mouseLeave)
     }
 
-    var wilayas = ["Adrar", "Chlef", "Laghouat", "Oum_El_Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar", "Blida", "Bouira", "Tamanghasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi_Ouzou", "Alger", "Djelfa", "Jijel", "Sétif", "Saïda", "Skikda", "Sidi_Bel_Abbès", "Annaba", "Guelma", "Constantine", "Médéa", "Mostaganem", "MSila", "Mascara", "Ouargla", "Oran", "El_Bayadh", "Illizi", "Bordj_Bou_Arréridj", "Boumerdès", "El_Tarf", "Tindouf", "Tissemsilt", "El_Oued", "Khenchela", "Souk_Ahras", "Tipaza", "Mila", "Aïn_Defla", "Naâma", "Aïn_Témouchent", "Ghardaïa", "Relizane"];
+    var wilayas = ["Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar", "Blida", "Bouira", "Tamanrasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi Ouzou", "Alger", "Djelfa", "Jijel", "Sétif", "Saïda", "Skikda", "Sidi Bel Abbès", "Annaba", "Guelma", "Constantine", "Médéa", "Mostaganem", "MSila", "Mascara", "Ouargla", "Oran", "El Bayadh", "Illizi", "Bordj Bou Arréridj", "Boumerdès", "El Tarf", "Tindouf", "Tissemsilt", "El Oued", "Khenchela", "Souk Ahras", "Tipaza", "Mila", "Aïn Defla", "Naâma", "Aïn Témouchent", "Ghardaïa", "Relizane"];
     var data = [];
     for (var i = 0; i < 48; i++) {
         data[i] = {

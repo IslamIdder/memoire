@@ -1,6 +1,9 @@
+var id = document.querySelector('#student_id').innerHTML
+console.log(id)
+link = "../Folders/chart.php?id=" + id
 $(document).ready(function () {
   $.ajax({
-    url: "../config.php",
+    url: link,
     type: "GET",
     dataType: "json",
     success: function (data) {
@@ -80,7 +83,7 @@ $(document).ready(function () {
               stacked: true
             },
             y: {
-              max: 77,
+              max: 150,
               grid: {
                 display: false
               },

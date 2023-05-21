@@ -25,6 +25,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             mysqli_query($conn, $mal);
         }
     }
+    if (isset($_POST['hospitalisation'])) {
+        $cause_hospitalisation = $_POST['cause_hospitalisation'];
+        $date_hospitalisation = $_POST['date_hospitalisation'];
+        $nom_antecedent = "hospitalisation";
+        $num_antecedent = 0;
+        $id_antecedent = $visit_id . "_" . $nom_antecedent;
+        $stmt = $conn->prepare("INSERT INTO antecedents(id_antecedent,nom_antecedent,id_visite,num_antecedent,cause,date_antecedent) values(?,?,?,?,?,?);");
+        $stmt->bind_param("ssiiss", $id_antecedent, $nom_antecedent, $visit_id, $num_antecedent, $cause_hospitalisation, $date_hospitalisation);
+        $stmt->execute();
+
+        if ($stmt->error) {
+            echo "Error: " . $stmt->error;
+        }
+    }
+
+    if (isset($_POST['epilepsie'])) {
+        $frequence_epilepsie = $_POST['frequence_epilepsie'];
+        $nom_antecedent = "epilepsie";
+        $num_antecedent = 3;
+        $id_antecedent = $visit_id . "_" . $nom_antecedent;
+        $stmt = $conn->prepare("INSERT INTO antecedents(id_antecedent,nom_antecedent,id_visite,num_antecedent,frequence) values(?,?,?,?,?);");
+        $stmt->bind_param("ssiii", $id_antecedent, $nom_antecedent, $visit_id, $num_antecedent, $frequence_epilepsie);
+        if ($stmt->error) {
+            // An error occurred
+            echo "Error: " . $stmt->error;
+        }
+        $stmt->execute();
+    }
+    if (isset($_POST['asthme'])) {
+        $frequence_asthme = $_POST['frequence_asthme'];
+        $nom_antecedent = "asthme";
+        $num_antecedent = 2;
+        $id_antecedent = $visit_id . "_" . $nom_antecedent;
+        $stmt = $conn->prepare("INSERT INTO antecedents(id_antecedent,nom_antecedent,id_visite,num_antecedent,frequence) values(?,?,?,?,?);");
+        $stmt->bind_param("ssiii", $id_antecedent, $nom_antecedent, $visit_id, $num_antecedent, $frequence_asthme);
+        $stmt->execute();
+        if ($stmt->error) {
+            // An error occurred
+            echo "Error: " . $stmt->error;
+        }
+    }
+    if (isset($_POST['diabete'])) {
+        $date_diabete = $_POST['date_diabete'];
+        $nom_antecedent = "diabete";
+        $num_antecedent = 1;
+        $id_antecedent = $visit_id . "_" . $nom_antecedent;
+        $stmt = $conn->prepare("INSERT INTO antecedents(id_antecedent,nom_antecedent,id_visite,num_antecedent,date_antecedent) values(?,?,?,?,?);");
+        $stmt->bind_param("ssiis", $id_antecedent, $nom_antecedent, $visit_id, $num_antecedent, $date_diabete);
+        $stmt->execute();
+        if ($stmt->error) {
+            // An error occurred
+            echo "Error: " . $stmt->error;
+        }
+    }
     header("Location:dossier.php?id=" . $id_student);
     exit;
 }
@@ -53,12 +107,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input class="input-field" type="text" autocomplete="off" placeholder="Poids" max="3" name="weight" required>
                 </div>
             </div>
-            <!-- <div class="input-group-container">
-                <label>Date of Exam:</label>
-                <div class="va-header">
-                    <input class="text" type="date" name="date">
-                </div>
-            </div> -->
             <div class="input-group-container">
                 <label>Tension Arteriellle:</label>
                 <div class="va-header">
@@ -90,8 +138,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label class="cbx" for="hospitalisation">Hospitalisation<span>
                 </div>
                 <div id="id_1" style="display:none;">
-                    <input class="input-field popup" type="text" autocomplete="off" placeholder="cause">
-                    <input class="input-field" type="date" placeholder="date">
+                    <input class="input-field popup" type="text" name="cause_hospitalisation" autocomplete="off" placeholder="cause">
+                    <input class="input-field" type="date" name="date_hospitalisation" placeholder="date">
                 </div>
             </div>
             <div class="flex flex-column">
@@ -100,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label class="cbx" for="epilepsie">Epilepsie</label>
                 </div>
                 <div class="name_parent" id="id_2" style="display:none;">
-                    <input class="input-field popup" type="text" autocomplete="off" placeholder="frequences des crises">
+                    <input class="input-field popup" type="text" name="frequence_epilepsie" autocomplete="off" placeholder="frequences des crises">
                 </div>
             </div>
             <div class="flex flex-column">
@@ -109,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label class="cbx" for="asthme">Asthme</label>
                 </div>
                 <div class="name_parent" id="id_3" style="display:none;">
-                    <input class="input-field popup" type="text" autocomplete="off" placeholder="frequences des crises">
+                    <input class="input-field popup" type="text" name="frequence_asthme" autocomplete="off" placeholder="frequences des crises">
                 </div>
             </div>
             <div class="flex flex-column">
@@ -118,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label class="cbx" for="diabete">Diabete<span>
                 </div>
                 <div class="name_parent" id="id_4" style="display:none;">
-                    <input class="input-field popup" type="date" placeholder="date de debut">
+                    <input class="input-field popup" type="date" name="date_diabete" placeholder="date de debut">
                 </div>
             </div>
         </div>

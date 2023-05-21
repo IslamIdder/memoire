@@ -21,7 +21,41 @@ if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
 }
 
+
+
+$stmt = $conn->prepare("SELECT * FROM vaccinations 
+INNER JOIN etudiant on vaccinations.id_etudiant = etudiant.id_etudiant
+WHERE etudiant.id_etudiant=?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$vaccinations = array_fill(0, 11, array("nom" => "", "df" => "", "dr" => "", "ob" => ""));
+if (!$result)
+    die(mysqli_error($conn));
+while ($row2 = mysqli_fetch_assoc($result)) {
+    $num_vaccin = $row2['num_vaccin'];
+    $vaccinations[$num_vaccin]['nom'] = $row2['periode_vaccin'];
+    $vaccinations[$num_vaccin]['df'] = $row2['date_fait'];
+    $vaccinations[$num_vaccin]['dr'] = $row2['date_refait'];
+    $vaccinations[$num_vaccin]['ob'] = $row2['observation'];
+}
+function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
+{
+    $fait = "";
+    $refait = "";
+    $obs = "";
+    if ($vaccinations[$i]['nom'] !== "") {
+        $fait =  $vaccinations[$i]['df'];
+        $refait =  $vaccinations[$i]['dr'];
+        if (!empty($vaccinations[$i]['ob'])) {
+            $obs =  $vaccinations[$i]['ob'];
+        } else {
+            $obs = "/";
+        }
+    }
+}
 ?>
+<div style="display:none;" id="student_id"><?php echo $id; ?></div>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,19 +100,19 @@ if (mysqli_num_rows($result) > 0) {
                         Dossier Médical scolaire
                     </h1>
                     <div class="flex flex-a-center flex-j-sb">
-                        <div class="fb-70">Nom et Prénom: <?php echo $row['nom'] . " " . $row['prenom'] ?></div>
-                        <div class="info-right">Prénom du père:</div>
+                        <div class="fb-70">Nom et Prénom:<span class="highlighted"> <?php echo $row['nom'] . " " . $row['prenom'] ?></span></div>
+                        <!-- <div class="info-right">Prénom du père:</div> -->
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
-                        <div class="fb-70">Né(e) le : <?php echo $row['date_naissance'] . " à:" ?></div>
-                        <div class="info-right">Wilaya: <?php echo $row['wilaya'] ?></div>
+                        <div class="fb-70">Né(e) le : <span class="highlighted"><?php echo $row['date_naissance'] . " "  ?></span></div>
+                        <div class="info-right">à: <span class="highlighted"><?php echo $row['wilaya'] ?></span></div>
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
-                        <div class="">Adresse des parents:</div>
+                        <!-- <div class="">Adresse des parents:</div> -->
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
-                        <div class="fb-70">Profession des parents:Père:</div>
-                        <div class="info-right">Mère:</div>
+                        <!-- <div class="fb-70">Profession des parents:Père:</div> -->
+                        <!-- <div class="info-right">Mère:</div> -->
                     </div>
                     <div class="table">
                         <h1 class="table-element span-all">
@@ -98,59 +132,70 @@ if (mysqli_num_rows($result) > 0) {
                         <div class="table-element ">Observations</div>
                         <div class="table-element ">Naissance</div>
                         <div class="table-element ">BCG + Polio Oral + Hépatite Virale B (1)</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(0, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">1 Mois</div>
                         <div class="table-element ">Hépatite Virale B (2)</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(1, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">3 Mois</div>
                         <div class="table-element ">D.TCoq + Polio Oral</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(2, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">4 Mois</div>
                         <div class="table-element ">D.TCoq + Polio Oral</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(3, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">5 Mois</div>
                         <div class="table-element ">D.TCoq + Polio Oral+ Hépatite Virale B (3)</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(4, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">9 Mois</div>
                         <div class="table-element ">Antirougeoleux</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(5, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">18 Mois</div>
                         <div class="table-element ">D.TCoq + Polio Oral</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(6, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">1ère Année Fondamentale</div>
                         <div class="table-element ">D.T.enfant + Polio Oral + Antirougeoleux</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(7, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">6ère Année Fondamentale</div>
                         <div class="table-element ">D.T.Adult + Polio Oral</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(8, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">1ère Année secondaire</div>
                         <div class="table-element ">D.T.Adult + Polio Oral</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(9, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                         <div class="table-element ">Tous les dix ans après 18 ans</div>
                         <div class="table-element ">D.T.Adult</div>
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
-                        <input type="text" class="table-element ">
+                        <?php checkVaccine(10, $vaccinations, $fait, $refait, $obs) ?>
+                        <div type="text" class="table-element "><?= $fait ?></div>
+                        <div type="text" class="table-element "><?= $refait ?></div>
+                        <div type="text" class="table-element "><?= $obs ?></div>
                     </div>
                 </div>
             </div>

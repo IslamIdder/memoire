@@ -27,9 +27,11 @@ $id_classe = $_GET['id'];
                 <input class="search-bar" placeholder="Rechercher..." type="text">
             </div>
         </form>
-        <!-- <a class="btn" href="studentcreation.php">
-            Ajouter un Etudiant
-        </a> -->
+        <?php if ($_SESSION['access_type'] == "directeur") : ?>
+            <a class="btn" href="studentcreation.php">
+                Ajouter un Etudiant
+            </a>
+        <?php endif; ?>
     </div>
     <div class="dossier-etudiant flex-center header">
         <div class="flex-center" style="width:85px;">Image</div>
