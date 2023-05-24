@@ -24,15 +24,15 @@ $id_docteur = $_SESSION['id'];
         <form class="inline">
             <div class="input-icons flex flex-a-center">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
-                <input class="search-bar" placeholder="Rechercher..." type="text">
+                <input class="search-bar" placeholder="Search..." type="text">
             </div>
         </form>
     </div>
     <div class="dossier-etudiant flex-center header ">
         <div class="display-info flex-center ">
-            <div class="student-info">ID ecole</div>
-            <div class="student-info">Nom ecole</div>
-            <div class="student-info">DDS</div>
+            <div class="student-info">School ID</div>
+            <div class="student-info">School name</div>
+            <div class="student-info">DDS ID</div>
         </div>
     </div>
     <div class="liste-etudiants flex-center flex-column">

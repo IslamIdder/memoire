@@ -7,7 +7,7 @@ console.log(sliderIconsContainer)
 
 for (let i = 0; i < numSlides; i++) {
     const sliderIcon = document.createElement('span');
-        sliderIcon.classList.add('slider-icon')
+    sliderIcon.classList.add('slider-icon')
     sliderIconsContainer.appendChild(sliderIcon);
 }
 const sliderIcons = document.querySelectorAll('.slider-icon');
@@ -74,4 +74,37 @@ document.addEventListener('keydown', (event) => {
         oniconClick(movePrevious)
 
 })
+document.addEventListener('wheel', function (event) {
+    // Get the delta value of the mouse wheel event
+    var delta = event.deltaY || event.detail || (-event.wheelDelta);
+
+    // Determine the scroll direction
+    var scrollDirection = delta > 0 ? 'down' : 'up';
+
+    // Do something based on the scroll direction
+    if (scrollDirection === 'up') {
+        oniconClick(movePrevious)
+    } else {
+        oniconClick(moveNext)
+    }
+
+    // Prevent the default scrolling behavior
+    event.preventDefault();
+})
+document.querySelectorAll('date').forEach(d => {
+    d.addEventListener('focus', function () {
+        this.type = 'date';
+    })
+    d.addEventListener('blur', function () {
+        this.type = 'date';
+    })
+})
+// document.getElementById('dateInput').addEventListener('focus', function () {
+//     this.type = 'date';
+// });
+
+// document.getElementById('dateInput').addEventListener('blur', function () {
+//     this.type = 'text';
+// });
+
 //#endregion

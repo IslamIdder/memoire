@@ -23,15 +23,15 @@ $id_ecole = $_GET['id']
         <form class="inline">
             <div class="input-icons flex flex-a-center">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
-                <input class="search-bar" placeholder="Rechercher..." type="text">
+                <input class="search-bar" placeholder="Search..." type="text">
             </div>
         </form>
     </div>
     <div class="dossier-etudiant flex-center header">
         <div class=" display-info flex-center ">
-            <div class=" student-info">ID</div>
-            <div class="student-info">Nom classe</div>
-            <div class="student-info">Année</div>
+            <div class=" student-info">Class ID</div>
+            <div class="student-info">Class name</div>
+            <div class="student-info">Year</div>
         </div>
     </div>
     <div class="liste-etudiants flex-center flex-column">

@@ -30,11 +30,11 @@
             <div class=" fb-50">1 - Hygiène Bucco-dentaire: </div>
             <div class="flex flex-j-fs flex-a-s flex-column">
                 <div class="flex-center g-10">
-                    <input type="checkbox" disabled name="">
+                    <input type="checkbox" <?= checkSet($hygiene['acceptable']) ?> disabled name="">
                     <div>Acceptable</div>
                 </div>
                 <div class=" flex-center g-10">
-                    <input type="checkbox" disabled name="">
+                    <input type="checkbox" <?= checkSet($hygiene['non acceptable']) ?> disabled name="">
                     <div>Non acceptable</div>
                 </div>
             </div>
@@ -43,15 +43,15 @@
             <div class="fb-50">2 - Gingivite: </div>
             <div class="flex flex-j-fs flex-a-s flex-column">
                 <div class="flex-center g-10">
-                    <input type="checkbox" disabled name="">
+                    <input type="checkbox" <?= checkSet($hygiene['localisee']) ?> disabled name="">
                     <div>Localisée</div>
                 </div>
                 <div class=" flex-center g-10">
-                    <input type="checkbox" disabled name="">
+                    <input type="checkbox" <?= checkSet($hygiene['generalisee']) ?> disabled name="">
                     <div>Généralisée</div>
                 </div>
                 <div class=" flex-center g-10">
-                    <input type="checkbox" disabled name="">
+                    <input type="checkbox" <?= checkSet($hygiene['tartre']) ?> disabled name="">
                     <div>Tartre</div>
                 </div>
             </div>

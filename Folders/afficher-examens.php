@@ -23,7 +23,7 @@ if (mysqli_num_rows($result) > 0) :
                     <?php
                     $sql = "SELECT * FROM visites 
                     INNER JOIN etudiant on visites.id_etudiant = etudiant.id_etudiant and visites.id_etudiant = $id and type_visite='generaliste' 
-                    INNER JOIN classe on etudiant.id_classe = classe.id_classe LIMIT $start,$finish";
+                    INNER JOIN classe on etudiant.id_classe = classe.id_classe order by date_visite asc LIMIT $start,$finish";
                     $result = mysqli_query($conn, $sql);
                     $len = mysqli_num_rows($result);
                     $rows = array();

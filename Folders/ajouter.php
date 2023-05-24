@@ -4,5 +4,5 @@
             <i class="fa-solid fa-plus"></i>
         </div>
     </a>
-    <div>Ajouter une visite</div>
+    <div>Add a visit</div>
 </div>

@@ -87,25 +87,25 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
         <div class="slider flex">
             <div class="dossier  flex flex-j-center">
                 <div class="page-container flex flex-column ">
-                    <div class="flex-center">République Algérienne Démocratique et Populaire</div>
+                    <div class="flex-center">People's Democratic Republic of Algeria</div>
                     <div class="flex flex-a-center ">
-                        <div class="fb-70">Ministère de l'Education Nationale</div>
-                        <div class="info-right">Ministère de la Santé</div>
+                        <div class="fb-70">Ministry of Education</div>
+                        <div class="info-right">Ministry of Health</div>
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
                         <div class="fb-70">Wilaya: </div>
                         <div class="info-right">Commune:</div>
                     </div>
                     <h1 class="title">
-                        Dossier Médical scolaire
+                        School Medical Record
                     </h1>
                     <div class="flex flex-a-center flex-j-sb">
-                        <div class="fb-70">Nom et Prénom:<span class="highlighted"> <?php echo $row['nom'] . " " . $row['prenom'] ?></span></div>
+                        <div class="fb-70">Full name:<span class="highlighted"> <?php echo $row['nom'] . " " . $row['prenom'] ?></span></div>
                         <!-- <div class="info-right">Prénom du père:</div> -->
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
-                        <div class="fb-70">Né(e) le : <span class="highlighted"><?php echo $row['date_naissance'] . " "  ?></span></div>
-                        <div class="info-right">à: <span class="highlighted"><?php echo $row['wilaya'] ?></span></div>
+                        <div class="fb-70">Born on: <span class="highlighted"><?php echo $row['date_naissance'] . " "  ?></span></div>
+                        <div class="info-right">in: <span class="highlighted"><?php echo $row['wilaya'] ?></span></div>
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
                         <!-- <div class="">Adresse des parents:</div> -->
@@ -119,78 +119,78 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
                             Vaccination
                         </h1>
                         <div class="table-element "></div>
-                        <div class="table-element ">Vaccins</div>
+                        <div class="table-element ">Vaccines</div>
                         <div class=" table-element span-2">
                             <div class="flex flex-column" style="width:100%;">
-                                <div style="border-bottom:1px solid black">Vaccins</div>
+                                <div style="border-bottom:1px solid black">Vaccines</div>
                                 <div class="flex">
-                                    <div class="fb-50">Fait le</div>
-                                    <div class="fb-50" style="border-left:1px solid black">A refaire le</div>
+                                    <div class="fb-50">Done in</div>
+                                    <div class="fb-50" style="border-left:1px solid black">To be redone in</div>
                                 </div>
                             </div>
                         </div>
                         <div class="table-element ">Observations</div>
-                        <div class="table-element ">Naissance</div>
+                        <div class="table-element ">Birth</div>
                         <div class="table-element ">BCG + Polio Oral + Hépatite Virale B (1)</div>
                         <?php checkVaccine(0, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">1 Mois</div>
+                        <div class="table-element ">1 Month</div>
                         <div class="table-element ">Hépatite Virale B (2)</div>
                         <?php checkVaccine(1, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">3 Mois</div>
+                        <div class="table-element ">3 Months</div>
                         <div class="table-element ">D.TCoq + Polio Oral</div>
                         <?php checkVaccine(2, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">4 Mois</div>
+                        <div class="table-element ">4 Months</div>
                         <div class="table-element ">D.TCoq + Polio Oral</div>
                         <?php checkVaccine(3, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">5 Mois</div>
+                        <div class="table-element ">5 Months</div>
                         <div class="table-element ">D.TCoq + Polio Oral+ Hépatite Virale B (3)</div>
                         <?php checkVaccine(4, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">9 Mois</div>
+                        <div class="table-element ">9 Months</div>
                         <div class="table-element ">Antirougeoleux</div>
                         <?php checkVaccine(5, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">18 Mois</div>
+                        <div class="table-element ">18 Months</div>
                         <div class="table-element ">D.TCoq + Polio Oral</div>
                         <?php checkVaccine(6, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">1ère Année Fondamentale</div>
+                        <div class="table-element ">1st Year Fundamental</div>
                         <div class="table-element ">D.T.enfant + Polio Oral + Antirougeoleux</div>
                         <?php checkVaccine(7, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">6ère Année Fondamentale</div>
+                        <div class="table-element ">2nd Year Fundamental</div>
                         <div class="table-element ">D.T.Adult + Polio Oral</div>
                         <?php checkVaccine(8, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">1ère Année secondaire</div>
+                        <div class="table-element ">1st Year secondary</div>
                         <div class="table-element ">D.T.Adult + Polio Oral</div>
                         <?php checkVaccine(9, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
                         <div type="text" class="table-element "><?= $refait ?></div>
                         <div type="text" class="table-element "><?= $obs ?></div>
-                        <div class="table-element ">Tous les dix ans après 18 ans</div>
+                        <div class="table-element ">Every 10 years after age 18</div>
                         <div class="table-element ">D.T.Adult</div>
                         <?php checkVaccine(10, $vaccinations, $fait, $refait, $obs) ?>
                         <div type="text" class="table-element "><?= $fait ?></div>
@@ -255,6 +255,7 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
                 </div>
             </div>
             <?php include('afficher-visites-dentaires.php');  ?>
+            <?php include('afficher-troubles.php');  ?>
 
         </div>
         <button class="move move-next">

@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="CSS/all.css">
     <link rel="stylesheet" href="fontawesome-free-6.4.0-web/css/all.min.css">
     <script src="Scripts/studentcreation.js" defer></script>
+    <script src="Scripts/script.js" defer></script>
     <title>Document</title>
 </head>
 
@@ -62,11 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
                 <label class="lbl" for="wilaya">Lieu de naissance</label>
             </div>
-            <!-- <div class="input-container">
-                <input type="text" autocomplete="off" id="school" name="school" class="input">
-                <label class="lbl" for="school">Ecole</label>
-            </div> -->
-
             <div class="input-container">
                 <?php
                 $sql = "SELECT nom_classe from classe 
@@ -90,10 +86,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
                 <label class="lbl" for="classe">Classe</label>
             </div>
-            <!-- <div class="input-container">
-                <input type="text" autocomplete="off" id="reg-num" name="reg-num" class="input">
-                <label class="lbl" for="reg-num">Numéro d'inscription</label>
-            </div> -->
             <!-- <div class="verification-code flex flex-j-center">
                 <?php
                 for ($i = 1; $i <= 10; $i++) {
@@ -101,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 ?>
             </div> -->
-            <button type="submit" class="btn">Confirmer</button>
+            <button type="submit" class="btn center">Confirmer</button>
         </form>
     </div>
     <script>

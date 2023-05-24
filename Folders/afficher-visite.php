@@ -1,15 +1,16 @@
 <?php
 if ($type_visite == 'infermier') {
     $icon = '<i class="fa-solid fa-syringe" style="font-size:50px;color:white;"></i>';
-    $type = 'Vaccinatoire';
+    $type = 'Vaccinatory';
+    $path = "vaccin.php?id=" . $id . "&id_visite=" . $id_visite;
 } elseif ($type_visite == 'generaliste') {
     $icon = '<i class="fa-solid fa-stethoscope" style="font-size:50px;color:white;"></i>';
-    $type = 'Generaliste';
+    $type = 'Generalist';
+    $path = "general.php?id_visite=" . $id_visite;
 } elseif ($type_visite == 'psychologue') {
-    $icon = '
-    <svg fill="#fff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 56 56" xml:space="preserve" style="width: 50px;">
+    $icon = '<svg fill="#fff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 56.00 56.00" xml:space="preserve" width="50px" height="50px" stroke="#fff" stroke-width="0.56">
     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.33599999999999997"></g>
     <g id="SVGRepo_iconCarrier">
         <g>
             <g> </g>
@@ -27,14 +28,16 @@ if ($type_visite == 'infermier') {
             </g>
         </g>
     </g>
-    </svg>';
-    $type = 'Psychologiste';
+</svg>';
+    $type = 'Pyschological';
+    $path = "psychologique.php?id_visite=" . $id_visite;
 } else {
     $icon = '<i class="fa-solid fa-tooth" style="font-size:50px;color:white;"></i>';
-    $type = "Dentaire";
+    $type = "Dental";
+    $path = "dentaire.php?id_visite=" . $id_visite . "&id=" . $id;
 }
 ?>
-<a class="history flex flex-j-center flex-column" href="#">
+<a class="history flex flex-j-center flex-column" href="<?= $path ?>">
     <div class="preview flex-center">
         <?= $icon; ?>
     </div>

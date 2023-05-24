@@ -4,13 +4,18 @@ if (!isset($_SESSION["id"])) {
     header("location: login.php");
 }
 require_once('config.php');
-$id_dir =  $_SESSION['id'];
+$id =  $_SESSION['id'];
+if ($_SESSION['access_type'] == 'docteur')
+    $query = "docteurs.id_docteur";
+else if ($_SESSION['access_type'] == 'directeur')
+    $query = "directeurs.id_directeur";
 $sql = "SELECT w.nom_wilaya
                 FROM wilaya w
                 INNER JOIN dds d on d.num_wilaya = w.num_wilaya
+                INNER JOIN docteurs on d.id_dds = docteurs.id_dds
                 INNER JOIN ecole ec on ec.id_dds = d.id_dds
                 INNER JOIN directeurs on directeurs.id_ecole = ec.id_ecole
-                where directeurs.id_directeur = '$id_dir'";
+                where " . $query . " = '$id'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 $nom_wilaya = $row['nom_wilaya'];
@@ -68,20 +73,15 @@ $wilayas = array("Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béja
                         Histogram
                     </div>
                 </button>
-                <!-- <button class="chart-type flex flex-a-center g-10" id="pieBtn">
-                    <div class="chart-icon"><i class="fa-solid fa-chart-pie"></i></div>
-                    <div class="chart-label">Pie</div>
-                </button> -->
             </div>
         </div>
         <div id="chart-display" class="chart-display flex-center fb-80">
             <?php
             include('map.php');
             include('lolipop.php');
+            include('pie.php');
+            include('histo.php');
             ?>
-
-            <div id="histo"></div>
-            <div id="pie"></div>
         </div>
         <form id="myForm" method="post" onsubmit="getCurrentChart()" class="data-selection flex flex-j-fs flex-column fb-10 g-10">
             <input type="hidden" id="current" name="current">
@@ -93,7 +93,8 @@ $wilayas = array("Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béja
                 foreach ($wilayas as $wilaya) {
                     if ($wilaya == $nom_wilaya)
                         echo '<option value="' . $wilaya . '" selected>' . $i . ' ' . $wilaya . '</option>';
-                    echo '<option value="' . $wilaya . '">' . $i . ' ' . $wilaya . '</option>';
+                    else
+                        echo '<option value="' . $wilaya . '">' . $i . ' ' . $wilaya . '</option>';
                     $i++;
                 }
                 ?>
@@ -106,12 +107,12 @@ $wilayas = array("Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béja
             </div>
             <div id="illnesses">
                 <div>Illness:</div>
-                <select class="" id="case" name="case">
+                <select class="input " id="case" name="case">
                     <option value="neurologique">Neurologique</option>
                     <option value="digestif">Digestif</option>
                     <option value="peau">Peau</option>
                     <option value="rachis">Rachis</option>
-                    <option value="ophtalmique">Ophtalmique</option>
+                    <option value="ophalmique">Ophalmique</option>
                     <option value="orl">ORL</option>
                     <option value="respiratoire">Respiratoire</option>
                     <option value="cardio">Cardio-vasculaire</option>
@@ -123,84 +124,6 @@ $wilayas = array("Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béja
             <button class="btn" type="submit">Confirm</button>
         </form>
     </main>
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', {
-            'packages': ['corechart']
-        });
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-
-            var data = google.visualization.arrayToDataTable([
-                ['nom_wilaya', 'num_students'],
-                <?php
-                $sql = "SELECT w.nom_wilaya, COUNT(DISTINCT v.id_etudiant) AS num_students
-                FROM wilaya w
-                INNER JOIN dds d on d.num_wilaya = w.num_wilaya
-                INNER JOIN ecole ec on ec.id_dds = d.id_dds
-                INNER JOIN classe c on c.id_ecole = ec.id_ecole
-                INNER JOIN etudiant e on e.id_classe = c.id_classe
-                INNER JOIN visites v ON e.id_etudiant = v.id_etudiant
-                INNER JOIN maladie m ON v.id_visite = m.id_visite AND m.nom_maladie = 'peau'
-                WHERE DATE(v.date_visite) BETWEEN '$start' AND '$finish' and type_visite = 'generaliste' 
-                GROUP BY w.nom_wilaya";
-                $fire = mysqli_query($con, $sql);
-                while ($result = mysqli_fetch_assoc($fire)) {
-                    echo "['" . $result['nom_wilaya'] . "'," . $result['num_students'] . "],";
-                }
-
-                ?>
-            ]);
-
-            var options = {};
-
-            var chart = new google.visualization.ColumnChart(document.getElementById('histo'));
-
-            chart.draw(data, options);
-        }
-    </script>
-
-    <script type="text/javascript">
-        google.charts.load('current', {
-            'packages': ['corechart']
-        });
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-
-            var data = google.visualization.arrayToDataTable([
-                ['nom_wilaya', 'num_students'],
-                <?php
-                $sql = "SELECT w.nom_wilaya, COUNT(DISTINCT v.id_etudiant) AS num_students
-                FROM wilaya w
-                INNER JOIN dds d on d.num_wilaya = w.num_wilaya
-                INNER JOIN ecole ec on ec.id_dds = d.id_dds
-                INNER JOIN classe c on c.id_ecole = ec.id_ecole
-                INNER JOIN etudiant e on e.id_classe = c.id_classe
-                INNER JOIN visites v ON e.id_etudiant = v.id_etudiant
-                INNER JOIN maladie m ON v.id_visite = m.id_visite AND m.nom_maladie = 'peau'
-                WHERE DATE(v.date_visite) BETWEEN '2020-01-01' AND '2020-05-01' and type_visite = 'generaliste' 
-                GROUP BY w.nom_wilaya";
-                $fire = mysqli_query($con, $sql);
-                while ($result = mysqli_fetch_assoc($fire)) {
-                    echo "['" . $result['nom_wilaya'] . "'," . $result['num_students'] . "],";
-                }
-
-                ?>
-            ]);
-
-            var options = {
-                pieHole: 0.0
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('pie'));
-
-            chart.draw(data, options);
-        }
-    </script> -->
 </body>
 
 </html>

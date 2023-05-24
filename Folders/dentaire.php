@@ -1,5 +1,45 @@
 <?php
 session_start();
+if (!isset($_SESSION["id"])) {
+    header("location: login.php");
+    exit;
+}
+$view = false;
+if (isset($_GET['id_visite'])) {
+    require_once('../config.php');
+    $id_visite = $_GET['id_visite'];
+    $view = true;
+    $sql = "SELECT * FROM visites 
+    INNER JOIN etudiant on visites.id_etudiant = etudiant.id_etudiant 
+    where visites.id_visite = '$id_visite' and type_visite='dentiste'";
+    $result1 = mysqli_query($conn, $sql);
+    $checked = array();
+    $row = mysqli_fetch_assoc($result1);
+    $nom = $row['nom'];
+    $prenom = $row['prenom'];
+    $checked[$row['hygiene']] = " disabled checked ";
+    $checked[$row['gingivite']] = " disabled checked ";
+    $sql = "SELECT * from dent where id_visite='$id_visite'";
+    $result2 = mysqli_query($conn, $sql);
+    $tooth_array = array();
+    while ($row = $result2->fetch_assoc()) {
+        if ($row['type_dent']) {
+            $dent = new stdClass();
+            $dent->type = $row['type_dent'];
+            $dent->number = $row['numero_dent'];
+            $tooth_array[] = $dent;
+        }
+    }
+    $json = json_encode($tooth_array);
+}
+function checkSet($view, &$value)
+{
+    if (isset($value)) {
+        return $value;
+    } else if ($view) {
+        return " disabled ";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,44 +51,82 @@ session_start();
     <link rel="stylesheet" href="../fontawesome-free-6.4.0-web/css/all.min.css">
     <link rel="stylesheet" href="../CSS/all.css">
     <script src="../Scripts/script.js" defer></script>
-    <script src="../Scripts/tooth.js" defer></script>
+    <?php if (!$view) : ?>
+        <script src="../Scripts/tooth.js" defer></script>
+    <?php endif; ?>
     <title>Document</title>
 </head>
+<?php if ($view) : ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var array = <?php echo $json; ?>;
+            array.forEach(t => {
+                var number = t.number
+                var type = t.type;
+                var tooth = document.getElementById("tooth_" + number)
+                if (type == "cavitée")
+                    tooth.classList.add("cavitated")
+                else if (type == "absente")
+                    tooth.classList.add("absent")
+                else if (type == "obturée")
+                    tooth.classList.add("obtured")
+            })
+        });
+    </script>
+<?php endif; ?>
 
 <body>
     <?php include('../nav-bar.php'); ?>
     <div id="id_etudiant" data-id="<?php echo $_GET['id']; ?>"></div>
-    <form method="POST" action="ajouter-dent.php?id=<?php echo $_GET['id']; ?> " onsubmit="setMyArrayValue()" class=" flex-center " style=" height:calc(100% - 51px);gap:100px;">
-        <div class="section1">
-            <label>Hygiene Bucco-dentaire:</label>
-            <div class="va-header">
-                <select name="hygiene" class="select">
-                    <option selected disabled>Select one</option>
-                    <option value="acceptable">Acceptable</option>
-                    <option value="non acceptable">Non Acceptable</option>
-                </select>
-            </div>
-            <input type="hidden" name="array" id="tooth">
-            <label>Gingivite:</label>
-            <div class="check-container">
-                <div class="checkbox-wrapper-4">
-                    <input class="inp-cbx" value="localisee" name="gingivite[]" type="checkbox" />
-                    <label class="cbx" for="localisee">Localisée</label>
-                </div>
-                <div class="checkbox-wrapper-4">
-                    <input class="inp-cbx" value="generalisee" name="gingivite[]" type="checkbox" />
-                    <label class="cbx" for="generalisee">Generalisée</label>
-                </div>
-                <div class="checkbox-wrapper-4">
-                    <input class="inp-cbx" value="tartre" name="gingivite[]" type="checkbox" />
-                    <label class="cbx" for="tartre">Tartre</label>
+    <h2 class="flex-center g-10 mt-20">Oral health sheet <?php if ($view) echo " of the student <span class=\"highlighted\">" . $nom . " " . $prenom . "</span>" ?></h2>
+    <form method="POST" action="ajouter-dent.php?id=<?php echo $_GET['id']; ?> " onsubmit="setMyArrayValue()" class=" flex g-30 flex-j-center wrap" style=" height:calc(100% - 51px);padding:50px;">
+        <input type="hidden" name="array" id="tooth">
+        <div class="flex  flex-column g-20 fb-20">
+            <div class="flex flex-column g-5">
+                <h3>Oral hygiene:</h3>
+                <div class="check-container flex flex-column g-10">
+                    <div class="flex g-5 flex-a-center">
+                        <input class="hygiene" value="acceptable" <?= checkset($view, $checked['acceptable']) ?> id="acceptable" name="hygiene[]" type="checkbox" onclick="handleCheckboxChange(this)" />
+                        <label class="cbx" for="acceptable">Acceptable</label>
+                    </div>
+                    <div class="flex g-5 flex-a-center">
+                        <input class="hygiene" value="non acceptable" <?= checkset($view, $checked['non acceptable']) ?> id="non_acceptable" name="hygiene[]" type="checkbox" onclick="handleCheckboxChange(this)" />
+                        <label class="cbx" for="non_acceptable">Not acceptable</label>
+                    </div>
                 </div>
             </div>
-            <label>Anomalie Dento-Faciale</label>
-            <div>
-                <input type="text" name="anomalie">
+            <div class="flex flex-column g-5">
+                <h3>Gingivitis:</h3>
+                <div class="check-container flex flex-column g-10">
+                    <div class="flex g-5 flex-a-center">
+                        <input class="gingivite" value="localisee" <?= checkset($view, $checked['localisee']) ?>id="localisee" name="gingivite[]" type="checkbox" onclick="handleCheckboxChange(this)" />
+                        <label class="cbx" for="localisee">Localised</label>
+                    </div>
+                    <div class="flex g-5 flex-a-center">
+                        <input class="gingivite" value="generalisee" <?= checkset($view, $checked['generalisee']) ?>id="generalisee" name="gingivite[]" type="checkbox" onclick="handleCheckboxChange(this)" />
+                        <label class="cbx" for="generalisee">Generalized</label>
+                    </div>
+                    <div class="flex g-5 flex-a-center">
+                        <input class="gingivite" value="tartre" <?= checkset($view, $checked['tartre']) ?>id="tartre" name="gingivite[]" type="checkbox" onclick="handleCheckboxChange(this)" />
+                        <label class="cbx" for="tartre">Tartar</label>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn" id="myButton">Enregistrer</button>
+            <div class="flex flex-column g-10">
+                <div class="flex flex-a-center g-10">
+                    <input class="pop-up-checkbox cbx" <?= checkset($view, $checked['anomalie']) ?> id="anomalie" name="anomalie" type="checkbox" />
+                    <div class="inp-cbx" for="anomalie">Dento-facial abnormality</div>
+                </div>
+                <div class="flex flex-column g-10" id="id_1" style="display:none;">
+                    <div class="input_box">
+                        <input class="input" type="text" autocomplete="off" placeholder=" " name="anomali_text">
+                        <label class="label">Details</label>
+                    </div>
+                </div>
+            </div>
+            <?php if (!$view) : ?>
+                <button type="submit" class="btn" id="myButton">Confirm</button>
+            <?php endif; ?>
         </div>
         <div class="section2">
             <div class="x-container" id="x">
@@ -58,18 +136,18 @@ session_start();
             <div class="selection">
                 <div class="option" id="cavity">
                     <div class="color color-cavity"></div>
-                    <div class=" text">Cavitée</div>
+                    <div class=" text">Cavitated</div>
                 </div>
                 <div class="option" id="absent">
                     <div class="color color-absent"></div>
-                    <div class=" text">Absente</div>
+                    <div class=" text">Absent</div>
                 </div>
                 <div class="option" id="obtured">
                     <div class="color color-obtured"></div>
-                    <div class=" text">Obturée</div>
+                    <div class=" text">Sealed</div>
                 </div>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 259.2 443.3" style="height:300px;">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 259.2 443.3" style="width:clamp(200px,50dvw,400px);height:clamp(200px,50dvh,800px);">
                 <defs>
                     <style>
                         .selection {
@@ -81,7 +159,9 @@ session_start();
                             color: (var(--fg-main));
                             align-items: flex-start;
                             flex-direction: column;
-                            font-size: 12px;
+                            box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+                            aspect-ratio: 16/9;
+                            font-size: 20px;
                             gap: 3px;
                         }
 
@@ -99,8 +179,8 @@ session_start();
                         }
 
                         .color {
-                            width: 10px;
-                            height: 10px;
+                            width: 15px;
+                            height: 15px;
                             border-radius: 50%;
                         }
 
@@ -133,10 +213,10 @@ session_start();
                             position:
                                 absolute;
                             width:
-                                15px;
+                                20px;
                             border-radius: 1px;
                             height:
-                                2px;
+                                3px;
                             background-color:
                                 black;
                         }
@@ -167,11 +247,11 @@ session_start();
                             fill: gray;
                         }
 
-                        g:hover {
+                        <?php if (!$view) : ?>g:hover {
                             cursor: pointer;
                         }
 
-                        .cavitated {
+                        <?php endif; ?>.cavitated {
                             fill:
                                 var(--color-cavitated);
                         }
@@ -369,6 +449,49 @@ session_start();
             </svg>
         </div>
     </form>
+    <script>
+        function handleCheckboxChange(checkbox) {
+            const checkboxes = document.querySelectorAll("." + checkbox.classList.item(0))
+
+            if (checkbox.checked) {
+                checkboxes.forEach((cb) => {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
+                    }
+                });
+            }
+        }
+
+        const checkBoxes = document.querySelectorAll('.pop-up-checkbox');
+        checkBoxes.forEach((cb, i) => {
+            let popup = document.querySelector("#id_" + (i + 1))
+            if (cb.checked) {
+                popup.style.display = 'flex';
+                popup.querySelectorAll('input').forEach(i => {
+                    i.required = true
+                })
+            } else {
+                console.log('yo')
+                popup.style.display = 'none';
+                popup.querySelectorAll('input').forEach(i => {
+                    i.required = false
+                })
+            }
+            cb.addEventListener('click', () => {
+                if (cb.checked) {
+                    popup.style.display = 'flex';
+                    popup.querySelectorAll('input').forEach(i => {
+                        i.required = true
+                    })
+                } else {
+                    popup.style.display = 'none';
+                    popup.querySelectorAll('input').forEach(i => {
+                        i.required = false
+                    })
+                }
+            })
+        })
+    </script>
 </body>
 
 </html>

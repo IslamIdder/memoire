@@ -1,6 +1,5 @@
 //#region student settings
 var studentSettings = document.querySelectorAll('.student-settings');
-console.log(studentSettings)
 studentSettings.forEach(e => {
     e.addEventListener('mouseenter', function () {
         var parent = e.parentElement;
@@ -64,25 +63,14 @@ if (searchInput) {
 }
 //#endregion
 
-//#region dynamic-flex
-// var dynamicFlexes = document.querySelectorAll(".dynamic-flex");
-// for (i = 0; i < dynamicFlexes.length; i++) {
-//     var numChildren = dynamicFlexes[i].childElementCount;
-//     var children = dynamicFlexes[i].children;
-//     for (j = 0; j < children.length; j++) {
-//         children[j].style.setProperty("flex-basis", (100 / numChildren) + "%")
-//     }
-// }
-//#endregion
+const tables = document.querySelectorAll('.table-med');
+for (let i = 2; i <= 11; i++) {
+    for (let j = 1; j <= i; j++) {
+        const selector = `.t-${i}>*:nth-child(${i}n + ${j})`;
+        const rule = `grid-row: ${j}/${j + 1};`;
 
-const container = document.querySelector('.t-11');
-
-for (let i = 1; i <= 11; i++) {
-    const selector = `.t-11>*:nth-child(11n + ${i})`;
-    const rule = `grid-row: ${i}/${i + 1};`;
-
-    const style = document.createElement('style');
-    style.innerHTML = `${selector} { ${rule} }`;
-    document.head.appendChild(style);
+        const style = document.createElement('style');
+        style.innerHTML = `${selector} { ${rule} }`;
+        document.head.appendChild(style);
+    }
 }
-

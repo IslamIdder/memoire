@@ -24,20 +24,20 @@ $id_classe = $_GET['id'];
         <form class="inline">
             <div class="input-icons flex flex-a-center">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
-                <input class="search-bar" placeholder="Rechercher..." type="text">
+                <input class="search-bar" placeholder="Search..." type="text">
             </div>
         </form>
         <?php if ($_SESSION['access_type'] == "directeur") : ?>
             <a class="btn" href="studentcreation.php">
-                Ajouter un Etudiant
+                Add a student
             </a>
         <?php endif; ?>
     </div>
     <div class="dossier-etudiant flex-center header">
-        <div class="flex-center" style="width:85px;">Image</div>
+        <div class="flex-center" style="width:65px;">Image</div>
         <div class="display-info flex-center ">
-            <div class="student-info">Nom</div>
-            <div class="student-info">Prenom</div>
+            <div class="student-info">Name</div>
+            <div class="student-info">Family name</div>
             <div class="student-info">Inscription number</div>
         </div>
         <!-- <button class="student-settings">

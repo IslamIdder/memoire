@@ -42,7 +42,7 @@ $stmt->close();
 <body>
     <?php include('../nav-bar.php') ?>
     <div class="student-name">
-        Dossier de l'etudiant <span class="highlighted"><?php echo $row['nom'] . " " . $row['prenom'] ?></span></div>
+        Medical folder of the student: <span class="highlighted"><?php echo $row['nom'] . " " . $row['prenom'] ?></span></div>
     <div class="history-display-grid">
         <a class="history flex flex-j-center flex-column" href="vue-general?id=<?= $id ?>">
             <div class="preview flex-center">
@@ -60,14 +60,14 @@ $stmt->close();
                     </g>
                 </svg>
             </div>
-            <div class="date-visite">Vue Général</div>
+            <div class="date-visite">General view</div>
         </a>
         <?php
         require_once('../config.php');
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $sql = "SELECT visites.type_visite, docteurs.nom_docteur, visites.date_visite 
+        $sql = "SELECT visites.type_visite, docteurs.nom_docteur, visites.date_visite,id_visite
         FROM visites 
         INNER JOIN docteurs ON docteurs.id_docteur = visites.id_docteur
         WHERE visites.id_etudiant = $id
@@ -78,6 +78,7 @@ $stmt->close();
                 $type_visite = $row['type_visite'];
                 $doctor_name = $row['nom_docteur'];
                 $date_visite = $row['date_visite'];
+                $id_visite = $row['id_visite'];
                 include 'afficher-visite.php';
             }
         }
