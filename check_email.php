@@ -12,9 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once('config.php');
     $email = $_SESSION["email"];
     try {
-        require 'phpmailer/src/PHPMailer.php';
-        require 'phpmailer/src/Exception.php';
-        require 'phpmailer/src/SMTP.php';
+        require_once 'phpmailer/src/PHPMailer.php';
+        require_once 'phpmailer/src/Exception.php';
+        require_once 'phpmailer/src/SMTP.php';
         $mail = new PHPMailer(true);
         $current_timestamp = date("Y-m-d H:i:s");
         $_SESSION["current_time"] = $current_timestamp;

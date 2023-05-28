@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <!-- <div id="state-name" style="position:absolute;opacity:0;">
     <div>name</div>

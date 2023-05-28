@@ -64,9 +64,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = mysqli_fetch_assoc($result);
         if ($row["email_" . $access_type] == $email) {
 
-            require 'phpmailer/src/PHPMailer.php';
-            require 'phpmailer/src/Exception.php';
-            require 'phpmailer/src/SMTP.php';
+            require_once 'phpmailer/src/PHPMailer.php';
+            require_once 'phpmailer/src/Exception.php';
+            require_once 'phpmailer/src/SMTP.php';
 
 
             $mail = new PHPMailer(true);
