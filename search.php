@@ -13,14 +13,14 @@ else
     INNER JOIN classe
     on etudiant.id_classe = classe.id_classe
     and classe.id_classe = '$id_classe' 
-    WHERE nom LIKE '$search_query%' OR prenom LIKE '$search_query%' OR id_etudiant LIKE '%$search_query%'";
+    where nom LIKE '%$search_query%' OR prenom LIKE '%$search_query%' OR id_etudiant LIKE '%$search_query%'";
 $result = mysqli_query($conn, $sql);
 if (!$result)
     echo mysqli_error($conn);
 
 if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
-        include 'celluleetudiant.php';
+        include_once 'celluleetudiant.php';
     }
 } else {
     echo "Aucun etudiant trouvé";

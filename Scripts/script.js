@@ -1,23 +1,10 @@
 //#region student settings
 var studentSettings = document.querySelectorAll('.student-settings');
 studentSettings.forEach(e => {
-    e.addEventListener('mouseenter', function () {
-        var parent = e.parentElement;
-        parent.classList.add('dossier-etudiant-no-hover')
-    })
-    e.addEventListener('mouseleave', function () {
-        var parent = e.parentElement;
-        parent.classList.remove('dossier-etudiant-no-hover')
-    })
-    e.addEventListener('click', function () {
-    })
-    window.addEventListener("click", function (event) {
-        if (!e.contains(event.target) && !dropDown.contains(event.target)) {
-        }
-    });
+
+
 })
 //#endregion
-
 
 //#region Gear on-click
 const settingsButton = document.querySelector(".user-settings")
@@ -63,14 +50,15 @@ if (searchInput) {
 }
 //#endregion
 
+//#region tables display
 const tables = document.querySelectorAll('.table-med');
 for (let i = 2; i <= 11; i++) {
     for (let j = 1; j <= i; j++) {
         const selector = `.t-${i}>*:nth-child(${i}n + ${j})`;
         const rule = `grid-row: ${j}/${j + 1};`;
-
         const style = document.createElement('style');
         style.innerHTML = `${selector} { ${rule} }`;
         document.head.appendChild(style);
     }
 }
+//#endregion

@@ -21,15 +21,9 @@ $id_parent = $_GET['id'];
 <body>
     <?php
     $current = "accueil";
-    include "nav-bar.php"; ?>
-    <div class="utility flex flex-a-center flex-j-sb">
-        <form class="inline">
-            <div class="input-icons flex flex-a-center">
-                <i class="fa-solid fa-magnifying-glass icon"></i>
-                <input class="search-bar" placeholder="Rechercher..." type="text">
-            </div>
-        </form>
-    </div>
+    include_once "nav-bar.php";
+    include_once "utility.php";
+    ?>
     <div class="dossier-etudiant flex-center header ">
         <div class="display-info flex-center ">
             <div class="student-info">ID student</div>
@@ -50,7 +44,7 @@ $id_parent = $_GET['id'];
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                include 'celluleetudiant.php';
+                include_once 'celluleetudiant.php';
             }
         } else {
             echo "student list is empty";

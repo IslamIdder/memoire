@@ -5,6 +5,7 @@ if (!isset($_SESSION["id"])) {
 }
 $id_classe = $_GET['id'];
 ?>
+<div style="display:none" id="classeID"><?= $id_classe ?></div>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,21 +19,10 @@ $id_classe = $_GET['id'];
 
 <body>
     <?php
-    include "nav-bar.php"; ?>
-    <div style="display:none" id="classeID"><?php echo $id_classe ?></div>
-    <div class="utility flex flex-a-center flex-j-sb">
-        <form class="inline">
-            <div class="input-icons flex flex-a-center">
-                <i class="fa-solid fa-magnifying-glass icon"></i>
-                <input class="search-bar" placeholder="Search..." type="text">
-            </div>
-        </form>
-        <?php if ($_SESSION['access_type'] == "directeur") : ?>
-            <a class="btn" href="studentcreation.php">
-                Add a student
-            </a>
-        <?php endif; ?>
-    </div>
+    include_once "nav-bar.php";
+    $classe = "";
+    include_once "utility.php";
+    ?>
     <div class="dossier-etudiant flex-center header">
         <div class="flex-center" style="width:65px;">Image</div>
         <div class="display-info flex-center ">
@@ -40,9 +30,6 @@ $id_classe = $_GET['id'];
             <div class="student-info">Family name</div>
             <div class="student-info">Inscription number</div>
         </div>
-        <!-- <button class="student-settings">
-        <i class="fa-solid fa-gear "></i>
-    </button> -->
     </div>
     <div class="liste-etudiants flex-center flex-column">
         <?php
@@ -59,7 +46,7 @@ $id_classe = $_GET['id'];
             echo mysqli_error($conn);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                include 'celluleetudiant.php';
+                include_once 'celluleetudiant.php';
             }
         } else {
             echo "student list is empty";

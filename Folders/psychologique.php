@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body class="input-page">
-    <?php include('../nav-bar.php'); ?>
+    <?php include_once('../nav-bar.php'); ?>
     <h2 class="flex-center g-10 mt-20">Psychological exam <?php if (!$show_button) echo " of the student <span class=\"highlighted\">" . $nom . " " . $prenom . "</span>" ?></h2>
     <form method="post" class="general flex flex-j-center  g-30">
         <div class="flex flex-column g-10 fb-33">

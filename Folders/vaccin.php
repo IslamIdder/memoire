@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("sisssisi", $id_vaccin, $id, $fait, $refait, $obs, $i, $periode_vaccin, $visit_id);
             $stmt->execute();
             $result = $stmt->get_result();
-            // header("Refresh: 0");
+            header("Location: dossier.php?id=" . $id);
         }
     }
 }
@@ -147,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="flex flex-column ">
     <?php
     $current = 'none';
-    include('../nav-bar.php');
+    include_once('../nav-bar.php');
     ?>
     <div class="flex-center max-height">
         <div class="dossier flex flex-j-center" style="position:relative;">

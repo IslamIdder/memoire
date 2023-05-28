@@ -3,7 +3,13 @@ session_start();
 if (!isset($_SESSION["id"])) {
     header("location: login.php");
 }
-$id_ecole = $_GET['id']
+if (isset($_GET['id'])) {
+    $type = "docteur";
+    $id_ecole = $_GET['id'];
+} else {
+    $id_directeur = $_SESSION['id'];
+    $type = "directeur";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,15 +24,10 @@ $id_ecole = $_GET['id']
 
 <body>
     <?php
-    include "nav-bar.php"; ?>
-    <div class="utility flex flex-a-center flex-j-sb">
-        <form class="inline">
-            <div class="input-icons flex flex-a-center">
-                <i class="fa-solid fa-magnifying-glass icon"></i>
-                <input class="search-bar" placeholder="Search..." type="text">
-            </div>
-        </form>
-    </div>
+    include_once "nav-bar.php";
+    $ecole = "";
+    include_once "utility.php";
+    ?>
     <div class="dossier-etudiant flex-center header">
         <div class=" display-info flex-center ">
             <div class=" student-info">Class ID</div>
@@ -40,14 +41,24 @@ $id_ecole = $_GET['id']
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $sql = "SELECT * FROM classe
+        if ($type == "docteur") {
+            $sql = "SELECT * FROM classe
         INNER JOIN ecole
         on classe.id_ecole = ecole.id_ecole
         where ecole.id_ecole = '$id_ecole'";
+        } else {
+            $sql = "SELECT * FROM classe
+        INNER JOIN directeurs
+        on classe.id_ecole = directeurs.id_ecole
+        where directeurs.id_directeur = '$id_directeur'";
+        }
+        $search_query = "";
+        $search_request = $sql . " and nom_classe LIKE '$search_query%' OR id_classe LIKE '$search_query%' OR annee LIKE '$search_query%'";
+        echo '<div style="display:none" id="query" data-page="ecole">' . $search_request . '</div>';
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                include 'celluleclasse.php';
+                include_once 'celluleclasse.php';
             }
         } else {
             echo "student list is empty";

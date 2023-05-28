@@ -30,8 +30,6 @@
                 return d.value;
             })
         var data_ready = pie(d3.entries(data))
-
-        // shape helper to build arcs:
         var arcGenerator = d3.arc()
             .innerRadius(0)
             .outerRadius(radius)
@@ -56,7 +54,7 @@
             .enter()
             .append('text')
             .text(function(d) {
-                return d.data.key + ` ${(d.data.value *100 / d3.sum(Object.values(data))).toFixed(1)}%`;
+                return d.data.key;
             })
             .attr("transform", function(d) {
                 return "translate(" + arcGenerator.centroid(d) + ")";

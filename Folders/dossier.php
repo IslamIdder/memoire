@@ -40,7 +40,7 @@ $stmt->close();
 </head>
 
 <body>
-    <?php include('../nav-bar.php') ?>
+    <?php include_once('../nav-bar.php') ?>
     <div class="student-name">
         Medical folder of the student: <span class="highlighted"><?php echo $row['nom'] . " " . $row['prenom'] ?></span></div>
     <div class="history-display-grid">
@@ -79,14 +79,14 @@ $stmt->close();
                 $doctor_name = $row['nom_docteur'];
                 $date_visite = $row['date_visite'];
                 $id_visite = $row['id_visite'];
-                include 'afficher-visite.php';
+                include_once 'afficher-visite.php';
             }
         }
         mysqli_close($conn);
         ?>
         <?php
         $type;
-        if ($_SESSION['access_type'] == "docteur") {
+        if ($_SESSION['access_type'] == "docteur") :
             switch ($_SESSION['doctor_type']) {
                 case 'dentiste': {
                         $direction = 'dentaire.php?id=';
@@ -104,10 +104,16 @@ $stmt->close();
                         $direction = 'general.php?id=';
                         break;
                     }
-            }
-            include('ajouter.php');
-        }
-        ?>
+            } ?>
+            <div class="history flex-j-center flex-column">
+                <a class="add flex-center" href="<?= $direction . $id ?>">
+                    <div>
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                </a>
+                <div>Add a visit</div>
+            </div>
+        <?php endif; ?>
     </div>
 </body>
 

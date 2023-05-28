@@ -20,3 +20,9 @@ inputFields.forEach((field, index) => {
         }
     });
 });
+
+function removeErrorMessage() {
+    let message = document.querySelector('#error_message');
+    console.log(message)
+    message.style.display = "none";
+}

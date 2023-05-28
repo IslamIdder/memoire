@@ -5,6 +5,7 @@ if (!isset($_SESSION["id"])) {
 }
 $id_docteur = $_SESSION['id'];
 ?>
+<div style="display:none" id="page"><?= "ecole" . "_" . $id_ecole ?></div>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,15 +20,17 @@ $id_docteur = $_SESSION['id'];
 <body>
     <?php
     $current = "accueil";
-    include "nav-bar.php"; ?>
-    <div class="utility flex flex-a-center flex-j-sb">
+    include "nav-bar.php";
+    include "utility.php";
+    ?>
+    <!-- <div class="utility flex flex-a-center flex-j-sb">
         <form class="inline">
             <div class="input-icons flex flex-a-center">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
                 <input class="search-bar" placeholder="Search..." type="text">
             </div>
         </form>
-    </div>
+    </div> -->
     <div class="dossier-etudiant flex-center header ">
         <div class="display-info flex-center ">
             <div class="student-info">School ID</div>

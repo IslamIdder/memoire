@@ -76,12 +76,12 @@ function checkSet($view, &$value)
 <?php endif; ?>
 
 <body>
-    <?php include('../nav-bar.php'); ?>
+    <?php include_once('../nav-bar.php'); ?>
     <div id="id_etudiant" data-id="<?php echo $_GET['id']; ?>"></div>
     <h2 class="flex-center g-10 mt-20">Oral health sheet <?php if ($view) echo " of the student <span class=\"highlighted\">" . $nom . " " . $prenom . "</span>" ?></h2>
     <form method="POST" action="ajouter-dent.php?id=<?php echo $_GET['id']; ?> " onsubmit="setMyArrayValue()" class=" flex g-30 flex-j-center wrap" style=" height:calc(100% - 51px);padding:50px;">
         <input type="hidden" name="array" id="tooth">
-        <div class="flex  flex-column g-20 fb-20">
+        <div class="flex  flex-column flex-a-fs g-20 fb-20">
             <div class="flex flex-column g-5">
                 <h3>Oral hygiene:</h3>
                 <div class="check-container flex flex-column g-10">

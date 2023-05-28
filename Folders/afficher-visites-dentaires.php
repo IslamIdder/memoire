@@ -37,6 +37,6 @@ while ($row1 = mysqli_fetch_assoc($result)) {
         }
     }
     $json = json_encode($tooth_array);
-    include('visite-dentaire.php');
+    include_once('visite-dentaire.php');
     $i++;
 }

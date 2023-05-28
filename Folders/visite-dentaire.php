@@ -28,7 +28,7 @@
         </div>
         <div class="flex" style="margin-top:10px;">
             <div class=" fb-50">1 - Hygiène Bucco-dentaire: </div>
-            <div class="flex flex-j-fs flex-a-s flex-column">
+            <div class="flex flex-j-s flex-a-s flex-column">
                 <div class="flex-center g-10">
                     <input type="checkbox" <?= checkSet($hygiene['acceptable']) ?> disabled name="">
                     <div>Acceptable</div>
@@ -41,7 +41,7 @@
         </div>
         <div class=" flex" style="margin-top:10px;">
             <div class="fb-50">2 - Gingivite: </div>
-            <div class="flex flex-j-fs flex-a-s flex-column">
+            <div class="flex flex-j-s flex-a-s flex-column">
                 <div class="flex-center g-10">
                     <input type="checkbox" <?= checkSet($hygiene['localisee']) ?> disabled name="">
                     <div>Localisée</div>

@@ -78,7 +78,7 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
 <body class="flex flex-column">
     <?php
     $current = 'none';
-    include('../nav-bar.php');
+    include_once('../nav-bar.php');
     ?>
     <div class=" slider-container flex relative">
         <button class="move move-previous">
@@ -199,8 +199,8 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
                     </div>
                 </div>
             </div>
-            <?php include('afficher-examens.php'); ?>
-            <div class="dossier  flex flex-j-center">
+            <?php include_once('afficher-examens.php'); ?>
+            <!-- <div class="dossier  flex flex-j-center">
                 <div class="page-container flex flex-column ">
                     <div class="chartCard">
                         <div class="chartBox">
@@ -253,9 +253,9 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
                         }
                     </style>
                 </div>
-            </div>
-            <?php include('afficher-visites-dentaires.php');  ?>
-            <?php include('afficher-troubles.php');  ?>
+            </div> -->
+            <?php include_once('afficher-visites-dentaires.php');  ?>
+            <?php include_once('afficher-troubles.php');  ?>
 
         </div>
         <button class="move move-next">

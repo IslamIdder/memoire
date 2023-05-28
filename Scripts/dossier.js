@@ -75,20 +75,13 @@ document.addEventListener('keydown', (event) => {
 
 })
 document.addEventListener('wheel', function (event) {
-    // Get the delta value of the mouse wheel event
     var delta = event.deltaY || event.detail || (-event.wheelDelta);
-
-    // Determine the scroll direction
     var scrollDirection = delta > 0 ? 'down' : 'up';
-
-    // Do something based on the scroll direction
     if (scrollDirection === 'up') {
         oniconClick(movePrevious)
     } else {
         oniconClick(moveNext)
     }
-
-    // Prevent the default scrolling behavior
     event.preventDefault();
 })
 document.querySelectorAll('date').forEach(d => {
@@ -99,12 +92,4 @@ document.querySelectorAll('date').forEach(d => {
         this.type = 'date';
     })
 })
-// document.getElementById('dateInput').addEventListener('focus', function () {
-//     this.type = 'date';
-// });
-
-// document.getElementById('dateInput').addEventListener('blur', function () {
-//     this.type = 'text';
-// });
-
 //#endregion

@@ -142,10 +142,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body class="input-page">
-    <?php include('../nav-bar.php'); ?>
-    <h2 class="flex-center g-10 mt-20">Medical examen<?php if ($view) echo " of the student <span class=\"highlighted\">" . $nom . " " . $prenom . "</span>" ?></h2>
+    <?php include_once('../nav-bar.php'); ?>
+    <h2 class="flex-center g-10 mt-20">Medical exam<?php if ($view) echo " of the student <span class=\"highlighted\">" . $nom . " " . $prenom . "</span>" ?></h2>
     <form method="post" class="general flex flex-j-center g-30">
-        <div class="section1 flex fb-40 flex-column g-10">
+        <div class="section1 flex fb-40 flex-column flex-a-s flex-j-s g-10">
             <div class="fs-25 fw-700">Examen Medical De Depistage</div>
             <div class="input-group-container flex flex-column">
                 <label class="mb-10">Information de l'élève:</label>

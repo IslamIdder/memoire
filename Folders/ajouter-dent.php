@@ -3,7 +3,6 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $array = $_POST['array'];
     $myArray = json_decode($array);
-    // var_dump($myArray);
     $id_student = $_GET['id'];
     $id_docteur = $_SESSION['id'];
     $type_visite = $_SESSION['doctor_type'];
