@@ -5,7 +5,7 @@ if (!isset($_SESSION["id"])) {
     exit;
 }
 require_once('../config.php');
-$id = $_GET['id'];
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
