@@ -9,6 +9,4 @@ foreach ($result as $row) {
     $data[] = $row;
 }
 $result->close();
-
-
 echo json_encode($data);

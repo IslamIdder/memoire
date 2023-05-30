@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $access_type = 'directeur';
         $att_name = 'id_directeur';
         $table_name = 'directeurs';
-        $direction = "ecole";
+        $direction = "director-front";
     }
     if (isset($access_type)) {
         $row_password = "mdp_" . $access_type;

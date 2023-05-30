@@ -15,8 +15,10 @@ function checkSet(&$value)
     }
 }
 
-$sql = "SELECT * FROM visites INNER JOIN etudiant on visites.id_etudiant = etudiant.id_etudiant and visites.id_etudiant = $id and type_visite='dentiste'";
-$result = mysqli_query($conn, $sql);
+$stmt = $conn->prepare("SELECT * FROM visites INNER JOIN etudiant on visites.id_etudiant = etudiant.id_etudiant and visites.id_etudiant = ? and type_visite='dentiste'");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
 $i = 1;
 while ($row1 = mysqli_fetch_assoc($result)) {
     $hygiene = array();
@@ -37,6 +39,6 @@ while ($row1 = mysqli_fetch_assoc($result)) {
         }
     }
     $json = json_encode($tooth_array);
-    include_once('visite-dentaire.php');
+    include 'visite-dentaire.php';
     $i++;
 }

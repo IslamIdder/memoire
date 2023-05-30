@@ -3,9 +3,8 @@ session_start();
 if (!isset($_SESSION["id"])) {
     header("location: login.php");
 }
-$id_docteur = $_SESSION['id'];
+$id_directeur = $_SESSION['id'];
 ?>
-<div style="display:none" id="page"><?= "ecole" . "_" . $id_ecole ?></div>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,33 +18,33 @@ $id_docteur = $_SESSION['id'];
 
 <body>
     <?php
-    $current = "accueil";
     include "nav-bar.php";
+    $ecole = "";
     include "utility.php";
     ?>
-    <div class="dossier-etudiant flex-center header ">
-        <div class="display-info flex-center ">
-            <div class="student-info">School ID</div>
-            <div class="student-info">School name</div>
-            <div class="student-info">DDS ID</div>
+    <div class="dossier-etudiant flex-center header">
+        <div class=" display-info flex-center ">
+            <div class=" student-info">Class ID</div>
+            <div class="student-info">Class name</div>
+            <div class="student-info">Year</div>
         </div>
     </div>
     <div class="liste-etudiants flex-center flex-column">
         <?php
-        require_once 'config.php';
+        require_once('config.php');
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $stmt = $conn->prepare("SELECT * FROM ecole
-        INNER JOIN docteurs
-        on ecole.id_dds = docteurs.id_dds
-        where docteurs.id_docteur = ?");
-        $stmt->bind_param("s", $id_docteur);
+        $stmt = $conn->prepare("SELECT * FROM classe
+        INNER JOIN directeurs
+        on classe.id_ecole = directeurs.id_ecole
+        where directeurs.id_directeur = ?");
+        $stmt->bind_param("s", $id_directeur);
         $stmt->execute();
         $result = $stmt->get_result();
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                include 'celluleecole.php';
+                include 'celluleclasse.php';
             }
         } else {
             echo "student list is empty";

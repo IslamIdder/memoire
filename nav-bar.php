@@ -24,10 +24,8 @@
                 </a>
             </li>
             <li class="flex-center">
-                <div class="settings-button">
-                    <i class="fa-solid fa-gear user-settings"></i>
-                    <!-- <i class="fa-solid fa-user-gear user-settings"></i> -->
-                    <!-- <div class="user-settings flex-center"><?= svg(20, 20, "bars", ""); ?></div> -->
+                <div class="user-settings dropdown-button ">
+                    <i class="fa-solid fa-gear "></i>
                     <div class="dropdown-menu flex-column">
                         <a class="dropdown-item" href="/memoire/logout.php">Log out</a>
                     </div>

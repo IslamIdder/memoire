@@ -10,12 +10,14 @@ function checkDisorder(&$value)
         return "/";
     }
 }
-$sql = "SELECT * FROM visites 
+$stmt = $conn->prepare("SELECT * FROM visites 
 INNER JOIN etudiant on visites.id_etudiant = etudiant.id_etudiant 
 INNER JOIN classe on etudiant.id_classe = classe.id_classe 
-where visites.id_etudiant = $id and type_visite='psychologue' 
-order by date_visite";
-$result = mysqli_query($conn, $sql);
+where visites.id_etudiant = ? and type_visite='psychologue' 
+order by date_visite");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
 $numRows = mysqli_num_rows($result);
 
 if ($numRows > 0) :

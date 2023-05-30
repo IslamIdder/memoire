@@ -8,12 +8,14 @@ $view = false;
 if (isset($_GET['id_visite'])) {
     $id_visite = $_GET['id_visite'];
     require_once('../config.php');
-    $sql = "SELECT * from visites 
+    $stmt = $conn->prepare("SELECT * from visites 
     LEFT JOIN etudiant on etudiant.id_etudiant = visites.id_etudiant
     LEFT JOIN maladie on maladie.id_visite = visites.id_visite
     LEFT JOIN antecedents on antecedents.id_visite = visites.id_visite
-    where visites.id_visite='$id_visite'";
-    $result = mysqli_query($conn, $sql);
+    where visites.id_visite=?");
+    $stmt->bind_param("i", $id_visite);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if (!$result) {
         die(mysqli_error($conn));
     }
@@ -58,9 +60,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $og = $_POST["og"];
     $ten = $_POST["tention"];
     require_once('../config.php');
-    $sql = "INSERT INTO visites(id_etudiant, id_docteur, type_visite, age, height, weight, visuelle_OD, visuelle_OG, date_visite, tention) 
-        VALUES ('$id_student', '$id_docteur', '$type_visite', '$age', '$height', '$weight', '$od', '$og', '$date', '$ten')";
-    mysqli_query($conn, $sql);
+    $stmt = $conn->prepare("INSERT INTO visites(id_etudiant, id_docteur, type_visite, age, height, weight, visuelle_OD, visuelle_OG, date_visite, tention) 
+        VALUES (?,?,?,?,?,?,?,?,?,?)");
+    $stmt->bind_param("issiiiiisi", $id_student, $id_docteur, $type_visite, $age, $height, $weight, $od, $og, $date, $ten);
+    $stmt->execute();
     $visit_id = mysqli_insert_id($conn);
     if (isset($_POST['illness'])) {
         $illnesses = $_POST['illness'];
@@ -68,8 +71,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($illnesses as $illness) {
             $array[] = $illness;
             $id_maladie = $visit_id . "_" . $illness;
-            $mal = "INSERT INTO maladie(id_maladie,id_visite, nom_maladie) VALUES ('$id_maladie','$visit_id', '$illness')";
-            mysqli_query($conn, $mal);
+            $stmt = $conn->prepare("INSERT INTO maladie(id_maladie,id_visite, nom_maladie) VALUES (?,?, ?)");
+            $stmt->bind_param("sis", $id_maladie, $visit_id, $illness);
+            $stmt->execute();
         }
     }
     if (isset($_POST['hospitalisation'])) {
@@ -142,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body class="input-page">
-    <?php include_once('../nav-bar.php'); ?>
+    <?php include('../nav-bar.php'); ?>
     <h2 class="flex-center g-10 mt-20">Medical exam<?php if ($view) echo " of the student <span class=\"highlighted\">" . $nom . " " . $prenom . "</span>" ?></h2>
     <form method="post" class="general flex flex-j-center g-30">
         <div class="section1 flex fb-40 flex-column flex-a-s flex-j-s g-10">

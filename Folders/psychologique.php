@@ -1,9 +1,6 @@
 <?php session_start();
 function checkSet($show_button, &$value)
 {
-    // $return = "";
-    // if ($show_button == false)
-    //     $return = " disabled ";
     if (isset($value))
         return $value;
     else if ($show_button == false) {
@@ -14,11 +11,13 @@ $show_button = true;
 if (isset($_GET['id_visite'])) {
     $id_visite = $_GET['id_visite'];
     require_once('../config.php');
-    $sql = "SELECT * from disorders 
+    $stmt = $conn->prepare("SELECT * from disorders 
     INNER JOIN visites on visites.id_visite = disorders.id_visite
     INNER JOIN etudiant on etudiant.id_etudiant = visites.id_etudiant
-    where visites.id_visite='$id_visite'";
-    $result = mysqli_query($conn, $sql);
+    where visites.id_visite=?");
+    $stmt->bind_param("i", $id_visite);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if (!$result) {
         die(mysqli_error($conn));
     }
@@ -31,7 +30,6 @@ if (isset($_GET['id_visite'])) {
         $disorders[$row['name_disorder']] = 'disabled checked';
         $disorders_headers[$row['category_disorder']] = 'disabled checked';
     }
-    // die(var_dump($disorders) . var_dump($disorders_headers));
 } else
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once('../config.php');
@@ -76,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body class="input-page">
-    <?php include_once('../nav-bar.php'); ?>
+    <?php include('../nav-bar.php'); ?>
     <h2 class="flex-center g-10 mt-20">Psychological exam <?php if (!$show_button) echo " of the student <span class=\"highlighted\">" . $nom . " " . $prenom . "</span>" ?></h2>
     <form method="post" class="general flex flex-j-center  g-30">
         <div class="flex flex-column g-10 fb-33">

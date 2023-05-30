@@ -40,7 +40,7 @@ $stmt->close();
 </head>
 
 <body>
-    <?php include_once('../nav-bar.php') ?>
+    <?php include('../nav-bar.php') ?>
     <div class="student-name">
         Medical folder of the student: <span class="highlighted"><?php echo $row['nom'] . " " . $row['prenom'] ?></span></div>
     <div class="history-display-grid">
@@ -67,19 +67,20 @@ $stmt->close();
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $sql = "SELECT visites.type_visite, docteurs.nom_docteur, visites.date_visite,id_visite
+        $stmt = $conn->prepare("SELECT visites.type_visite, docteurs.nom_docteur, visites.date_visite,id_visite
         FROM visites 
         INNER JOIN docteurs ON docteurs.id_docteur = visites.id_docteur
         WHERE visites.id_etudiant = $id
-        ORDER BY date_visite ASC ";
-        $result = mysqli_query($conn, $sql);
+        ORDER BY date_visite ASC ");
+        $stmt->execute();
+        $result = $stmt->get_result();
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $type_visite = $row['type_visite'];
                 $doctor_name = $row['nom_docteur'];
                 $date_visite = $row['date_visite'];
                 $id_visite = $row['id_visite'];
-                include_once 'afficher-visite.php';
+                include 'afficher-visite.php';
             }
         }
         mysqli_close($conn);

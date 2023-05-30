@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<!-- <div id="state-name" style="position:absolute;opacity:0;">
-    <div>name</div>
-    <div class="">Nombre de cas:
-
-    </div>
-</div> -->
 <div id="lolipop" class="chart" style="display:none;"></div>
 <script>
     function createLolipopChart(data) {

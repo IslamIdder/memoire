@@ -38,18 +38,18 @@ $wilayas = array("Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béja
     <?php
     $current = "statistiques";
     $current_chart = 'choropleth';
-    include_once "nav-bar.php"; ?>
+    include "nav-bar.php"; ?>
     <main class="stats-container flex flex-j-center g-10">
         <div class="chart-type-container flex-j-s fb-10">
             <div class="flex flex-j-s flex-column g-10">
                 <button class="chart-type all-chart flex flex-a-center g-10 current-chart" id="mapBtn">
-                    <div class="chart-icon"><?= svg(25, 25, "dz-mini") ?></div>
+                    <?= svg(25, 25, "dz-mini") ?>
                     <div class="chart-label">
                         Choropleth
                     </div>
                 </button>
                 <button class="chart-type all-chart flex flex-a-center g-10" id="lollipopBtn">
-                    <div class="chart-icon"><?= svg(25, 25, "lollipop-mini") ?></div>
+                    <?= svg(25, 25, "lollipop-mini") ?>
                     <div class="chart-label">Lollipop</div>
                 </button>
                 <button class="chart-type wilaya-chart flex flex-a-center g-10 " id="pieBtn">
@@ -70,10 +70,10 @@ $wilayas = array("Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béja
         </div>
         <div id="chart-display" class="chart-display flex-center fb-80">
             <?php
-            include_once('map.php');
-            include_once('lolipop.php');
-            include_once('pie.php');
-            include_once('histo.php');
+            include('map.php');
+            include('lolipop.php');
+            include('pie.php');
+            include('histo.php');
             ?>
         </div>
         <form id="myForm" method="post" onsubmit="getCurrentChart()" class="data-selection flex flex-j-s flex-column fb-10 g-10">

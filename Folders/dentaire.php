@@ -9,10 +9,12 @@ if (isset($_GET['id_visite'])) {
     require_once('../config.php');
     $id_visite = $_GET['id_visite'];
     $view = true;
-    $sql = "SELECT * FROM visites 
+    $stmt = $conn->prepare("SELECT * FROM visites 
     INNER JOIN etudiant on visites.id_etudiant = etudiant.id_etudiant 
-    where visites.id_visite = '$id_visite' and type_visite='dentiste'";
-    $result1 = mysqli_query($conn, $sql);
+    where visites.id_visite = ? and type_visite='dentiste'");
+    $stmt->bind_param("i", $id_visite);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $checked = array();
     $row = mysqli_fetch_assoc($result1);
     $nom = $row['nom'];
@@ -20,7 +22,9 @@ if (isset($_GET['id_visite'])) {
     $checked[$row['hygiene']] = " disabled checked ";
     $checked[$row['gingivite']] = " disabled checked ";
     $sql = "SELECT * from dent where id_visite='$id_visite'";
-    $result2 = mysqli_query($conn, $sql);
+    $stmt->bind_param("i", $id_visite);
+    $stmt->execute();
+    $result2 = $stmt->get_result();
     $tooth_array = array();
     while ($row = $result2->fetch_assoc()) {
         if ($row['type_dent']) {
@@ -76,7 +80,7 @@ function checkSet($view, &$value)
 <?php endif; ?>
 
 <body>
-    <?php include_once('../nav-bar.php'); ?>
+    <?php include('../nav-bar.php'); ?>
     <div id="id_etudiant" data-id="<?php echo $_GET['id']; ?>"></div>
     <h2 class="flex-center g-10 mt-20">Oral health sheet <?php if ($view) echo " of the student <span class=\"highlighted\">" . $nom . " " . $prenom . "</span>" ?></h2>
     <form method="POST" action="ajouter-dent.php?id=<?php echo $_GET['id']; ?> " onsubmit="setMyArrayValue()" class=" flex g-30 flex-j-center wrap" style=" height:calc(100% - 51px);padding:50px;">

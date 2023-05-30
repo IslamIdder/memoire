@@ -71,12 +71,13 @@ body {
 
 .settings-button {
     border-radius: var(--border-radius-main);
-
+    position: relative;
 }
 
 .user-settings {
     cursor: pointer;
     padding: 10px 10px;
+    position: relative;
     color: var(--fg-main);
     border-radius: var(--border-radius-main);
 }
@@ -85,8 +86,19 @@ body {
     background: var(--hover-main);
 }
 
-.settings-button {
-    position: relative;
+.student-settings {
+    font-size: var(--font-size-main);
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.student-settings:hover {
+    background-color: var(--hover-main);
 }
 
 .dropdown-menu {
@@ -98,11 +110,19 @@ body {
     padding: 5px;
     border: 1px solid var(--border-s-gray);
     border-radius: var(--border-radius-main);
-    right: 10%;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
+    /* bottom: -20px; */
+    top: 100%;
+    right: 20px;
+}
+
+.higher-prio {
+    z-index: 100;
 }
 
 .shown {
     display: flex;
+    z-index: 100;
 }
 
 .dropdown-item:hover {
@@ -213,21 +233,6 @@ body {
 .dossier-etudiant-no-hover:hover {
     background-color: transparent;
     border-bottom: 1px solid var(--border-s-gray);
-}
-
-.student-settings {
-    font-size: var(--font-size-main);
-    position: absolute;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    border-radius: 5px;
-    z-index: 99;
-    padding: 5px;
-}
-
-.student-settings:hover {
-    background-color: var(--hover-main);
 }
 
 .header {
@@ -468,6 +473,7 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
     font-size: 17px;
     border-right: 1px solid #6f6f6f;
+    height: 100%;
     border-bottom: 1px solid #6f6f6f;
 }
 
@@ -614,10 +620,6 @@ input[type="number"]::-webkit-outer-spin-button {
     border-right: 1px solid var(--hover-s-main);
 }
 
-.chart-display {
-    /* height: 2000px; */
-}
-
 .chart-type {
     z-index: 1;
     cursor: pointer;
@@ -633,11 +635,6 @@ input[type="number"]::-webkit-outer-spin-button {
     background-color: var(--hover-main);
 }
 
-.chart {
-    /* width: 50%;
-    height: 70%;
-    display: none; */
-}
 
 .map-icon {
     display: inline-block;
@@ -662,10 +659,6 @@ input[type="number"]::-webkit-outer-spin-button {
 .data-selection {
     right: 15px;
     border-left: 1px solid var(--hover-s-main);
-}
-
-.chart-display {
-    /* height: 1000px; */
 }
 
 /* #endregion */
@@ -873,6 +866,19 @@ input[type="number"]::-webkit-outer-spin-button {
     border-radius: 5px;
 }
 
+.red {
+    color: var(--color-red);
+}
+
+.yellow {
+    color: var(--color-yellow);
+}
+
+.icon-20 {
+    width: 20px;
+    height: 20px;
+}
+
 /* #endregion */
 
 /* #region general */
@@ -913,7 +919,7 @@ input {
     background-color: unset;
     border: unset;
     outline-width: 0;
-    height: 50px;
+    height: 40px;
     max-width: 320px;
     min-width: 0;
 }
@@ -923,9 +929,6 @@ input[type="date"] {
     border: 1px solid var(--border-ss-gray);
     border-radius: var(--border-radius-main);
     padding-left: 5px; */
-}
-
-input[type="date"] {
     font-family: inherit;
 }
 
@@ -962,10 +965,6 @@ input[type="checkbox"] {
 
 /* #endregion */
 
-
-.table-element {
-    height: 100%;
-}
 
 .input_box {
     position: relative;
@@ -1030,6 +1029,8 @@ input[type="checkbox"] {
     --color-cavitated: rgb(182, 0, 0);
     --color-absent: rgb(249, 197, 54);
     --color-obtured: rgb(10, 172, 10);
+    --color-red: #ff0000;
+    --color-yellow: #eac700;
     --color-main: #5ca5e5;
     --hover-main: rgb(232, 235, 255);
     --hover-s-main: rgb(208, 212, 245);

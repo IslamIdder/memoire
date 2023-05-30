@@ -19,9 +19,9 @@ $id_classe = $_GET['id'];
 
 <body>
     <?php
-    include_once "nav-bar.php";
+    include "nav-bar.php";
     $classe = "";
-    include_once "utility.php";
+    include "utility.php";
     ?>
     <div class="dossier-etudiant flex-center header">
         <div class="flex-center" style="width:65px;">Image</div>
@@ -37,16 +37,18 @@ $id_classe = $_GET['id'];
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $sql = "SELECT * FROM etudiant
+        $stmt = $conn->prepare("SELECT * FROM etudiant
         INNER JOIN classe
         on etudiant.id_classe = classe.id_classe
-        and classe.id_classe = '$id_classe'";
-        $result = mysqli_query($conn, $sql);
+        and classe.id_classe = ?");
+        $stmt->bind_param("s", $id_classe);
+        $stmt->execute();
+        $result = $stmt->get_result();
         if (!$result)
             echo mysqli_error($conn);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                include_once 'celluleetudiant.php';
+                include 'celluleetudiant.php';
             }
         } else {
             echo "student list is empty";

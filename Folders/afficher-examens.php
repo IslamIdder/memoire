@@ -4,12 +4,14 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-$sql = "SELECT * FROM visites
+$stmt = $conn->prepare("SELECT * FROM visites
         INNER JOIN etudiant ON visites.id_etudiant = etudiant.id_etudiant
         INNER JOIN classe ON etudiant.id_classe = classe.id_classe
-        WHERE visites.id_etudiant = $id AND type_visite = 'generaliste'
-        ORDER BY date_visite ASC";
-$result = mysqli_query($conn, $sql);
+        WHERE visites.id_etudiant = ? AND type_visite = 'generaliste'
+        ORDER BY date_visite ASC");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
 $numRows = mysqli_num_rows($result);
 
 if ($numRows > 0) :

@@ -1,22 +1,32 @@
-//#region student settings
-var studentSettings = document.querySelectorAll('.student-settings');
-studentSettings.forEach(e => {
-
-
-})
-//#endregion
 
 //#region Gear on-click
-const settingsButton = document.querySelector(".user-settings")
-const dropDown = document.querySelector(".dropdown-menu")
-settingsButton.addEventListener('click', function () {
-    dropDown.classList.toggle('shown');
-})
+const settingsButtons = document.querySelectorAll(".dropdown-button");
+const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+let currentButton = null;
+let currentDropdown = null;
+
+settingsButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        currentButton = button;
+        currentDropdown = button.children[1];
+        dropdownMenus.forEach(d => {
+            if (d !== currentDropdown) {
+                d.parentElement.classList.remove('higher-prio')
+                d.classList.remove("shown")
+            }
+        })
+        currentButton.classList.toggle("higher-prio");
+        currentDropdown.classList.toggle("shown");
+    });
+});
+
 window.addEventListener("click", function (event) {
-    if (!settingsButton.contains(event.target) && !dropDown.contains(event.target)) {
-        dropDown.classList.remove("shown");
+    if (currentButton !== null && !currentButton.contains(event.target) && !currentDropdown.contains(event.target)) {
+        currentDropdown.classList.remove("shown");
+        currentButton.classList.remove("higher-prio");
     }
 });
+
 // #endregion
 
 //#region search-bar dynamic search

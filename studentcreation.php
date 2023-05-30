@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <?php include_once('nav-bar.php') ?>
+    <?php include('nav-bar.php') ?>
     <div class="flex-center max-height" style="margin-top:auto" ;>
         <form method="post" class="form flex flex-column flex-j-center">
             <h1 class="form-title">Ajouter un etudiant</h1>

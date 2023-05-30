@@ -147,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="flex flex-column ">
     <?php
     $current = 'none';
-    include_once('../nav-bar.php');
+    include('../nav-bar.php');
     ?>
     <div class="flex-center max-height">
         <div class="dossier flex flex-j-center" style="position:relative;">
