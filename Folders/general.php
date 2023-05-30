@@ -52,13 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_student = $_GET['id'];
     $id_docteur = $_SESSION['id'];
     $type_visite = $_SESSION['doctor_type'];
-    $age = $_POST["age"];
-    $height = $_POST["height"];
-    $weight = $_POST["weight"];
+    $age = filter_input(INPUT_POST, 'age', FILTER_SANITIZE_NUMBER_INT);
+    $height = filter_input(INPUT_POST, 'height', FILTER_SANITIZE_NUMBER_INT);
+    $weight = filter_input(INPUT_POST, 'weight', FILTER_SANITIZE_NUMBER_INT);
     $date = date('Y/m/d');
-    $od = $_POST["od"];
-    $og = $_POST["og"];
-    $ten = $_POST["tention"];
+    $od = filter_input(INPUT_POST, 'od', FILTER_SANITIZE_NUMBER_INT);
+    $og = filter_input(INPUT_POST, 'og', FILTER_SANITIZE_NUMBER_INT);
+    $ten = filter_input(INPUT_POST, 'tention', FILTER_SANITIZE_NUMBER_INT);
     require_once('../config.php');
     $stmt = $conn->prepare("INSERT INTO visites(id_etudiant, id_docteur, type_visite, age, height, weight, visuelle_OD, visuelle_OG, date_visite, tention) 
         VALUES (?,?,?,?,?,?,?,?,?,?)");
