@@ -12,8 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $wilaya = $_POST["wilaya"];
     $date = $_POST["dob"];
     $id = $_POST["reg-num"];
-    $sql = "INSERT INTO etudiant (id_etudiant, nom, prenom,date_naissance,wilaya,classe) VALUES ('$id', '$name', '$surname', '$date', '$wilaya', '$classe')";
-
+    $stmt = $conn->prepare("INSERT INTO etudiant (id_etudiant, nom, prenom,date_naissance,wilaya,classe) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssss", $id, $name, $surname, $date, $wilaya, $classe);
+    $stmt->execute();
     header("Location: Folders/dossier.php?id=" . $id);
     exit;
     $conn->close();
