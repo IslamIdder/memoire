@@ -69,6 +69,7 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs, $view)
 }
 $place = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id_student = $_GET['id'];
     for ($i = 0; $i < 11; $i++) {
         $place = $i . "-fait";
         if (isset($_POST[$place]) && $_POST[$place] != "") {
@@ -126,6 +127,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("sisssisi", $id_vaccin, $id, $fait, $refait, $obs, $i, $periode_vaccin, $visit_id);
             $stmt->execute();
             $result = $stmt->get_result();
+            require_once("../send_message.php");
+            sand_mail($id_student);
             header("Location: dossier.php?id=" . $id);
         }
     }

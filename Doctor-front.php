@@ -5,7 +5,7 @@ if (!isset($_SESSION["id"])) {
 }
 $id_docteur = $_SESSION['id'];
 ?>
-<div style="display:none" id="page"><?= "ecole" . "_" . $id_ecole ?></div>
+<div style="display:none" id="searchType"><?= "doctor-front_" . $id_docteur ?></div>
 <!DOCTYPE html>
 <html lang="en">
 

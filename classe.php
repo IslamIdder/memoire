@@ -5,7 +5,7 @@ if (!isset($_SESSION["id"])) {
 }
 $id_classe = $_GET['id'];
 ?>
-<div style="display:none" id="classeID"><?= $id_classe ?></div>
+<div style="display:none" id="searchType"><?= "classe_" . $id_classe ?></div>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +17,7 @@ $id_classe = $_GET['id'];
     <title>Document</title>
 </head>
 
-<body>
+<body class="relative">
     <?php
     include "nav-bar.php";
     $classe = "";
@@ -56,6 +56,15 @@ $id_classe = $_GET['id'];
         mysqli_close($conn);
         ?>
     </div>
+
+    <dialog id="myDialog" style="position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin:0;">
+        <p>Are you sure you want to delete the student?</p>
+        <button id="closeDialog">close dialog</button>
+    </dialog>
 </body>
 
 </html>

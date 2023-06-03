@@ -83,7 +83,7 @@ $(document).ready(function () {
               stacked: true
             },
             y: {
-              max: 150,
+              max: 90,
               grid: {
                 display: false
               },

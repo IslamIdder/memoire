@@ -10,11 +10,6 @@
             <a class="btn" href="studentcreation.php">
                 Add a student
             </a>
-        <?php endif;
-        if (isset($ecole)) : ?>
-            <a class="btn" href="#">
-                Add a class
-            </a>
         <?php endif; ?>
     <?php endif; ?>
 </div>

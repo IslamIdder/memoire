@@ -15,14 +15,14 @@ if (isset($_GET['id_visite'])) {
     where visites.id_visite = ? and type_visite='dentiste'");
     $stmt->bind_param("i", $id_visite);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $result1 = $stmt->get_result();
     $checked = array();
     $row = mysqli_fetch_assoc($result1);
     $nom = $row['nom'];
     $prenom = $row['prenom'];
     $checked[$row['hygiene']] = " disabled checked ";
     $checked[$row['gingivite']] = " disabled checked ";
-    $sql = "SELECT * from dent where id_visite='$id_visite'";
+    $stmt = $conn->prepare("SELECT * from dent where id_visite=?");
     $stmt->bind_param("i", $id_visite);
     $stmt->execute();
     $result2 = $stmt->get_result();
@@ -84,7 +84,7 @@ function checkSet($view, &$value)
     <?php include('../nav-bar.php'); ?>
     <div id="id_etudiant" data-id="<?php echo $id; ?>"></div>
     <h2 class="flex-center g-10 mt-20">Oral health sheet <?php if ($view) echo " of the student <span class=\"highlighted\">" . $nom . " " . $prenom . "</span>" ?></h2>
-    <form method="POST" action="ajouter-dent.php?id=<?php echo $id; ?> " onsubmit="setMyArrayValue()" class=" flex g-30 flex-j-center wrap" style=" height:calc(100% - 51px);padding:50px;">
+    <form method="POST" action="ajouter-dent.php?id=<?php echo $id; ?> " onsubmit="setMyArrayValue()" class=" flex g-30 flex-j-center wrap" style="padding:50px;">
         <input type="hidden" name="array" id="tooth">
         <div class="flex  flex-column flex-a-fs g-20 fb-20">
             <div class="flex flex-column g-5">

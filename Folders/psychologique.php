@@ -58,6 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute();
         }
     }
+    require_once("../send_message.php");
+    sand_mail($id_student);
     header("Location:dossier.php?id=" . $id_student);
     exit;
 }
@@ -181,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="flex flex-column g-10">
                     <div class="flex flex-a-center g-10">
-                        <input class="pop-up-checkbox cbx" <?= checkSet($show_button, $disorders['learning']) ?> id="learning" value="learning" type="checkbox" />
+                        <input class="pop-up-checkbox cbx" <?= checkSet($show_button, $disorders_headers['learning']) ?> id="learning" value="learning" type="checkbox" />
                         <label class="inp-cbx" for="learning">Learning difficulties</label>
                     </div>
                     <div class="flex flex-column g-10 ml-20" id="id_6" style="display:none;">

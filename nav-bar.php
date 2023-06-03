@@ -1,4 +1,11 @@
-<?php require_once("config.php") ?>
+<?php
+function svg($width, $height, $id, $class = "")
+{
+    return '<svg width="' . $width . 'px" height="' . $height . 'px" class="' . $class . '">
+    <use style="width:100%;height:100%;" xlink:href="/memoire/Images/icons.svg#' . $id . '"></use>
+</svg>';
+}
+require_once("config.php") ?>
 <header class="main-header flex flex-a-center flex-j-sb">
     <div class="header-content flex flex-a-center">
         <a href="/memoire/<?php echo $_SESSION['home'] ?>" class="flex g-5 flex-a-center">
@@ -14,15 +21,16 @@
                     Home
                 </a>
             </li>
-
-            <li class="nav-element flex-center <?php if (isset($current)) {
-                                                    if ($current == 'statistiques') echo 'current';
-                                                }
-                                                ?>">
-                <a href="/memoire/statistiques.php">
-                    Statistics
-                </a>
-            </li>
+            <?php if ($_SESSION['access_type'] == "docteur" || $_SESSION['access_type'] == "directeur") : ?>
+                <li class="nav-element flex-center <?php if (isset($current)) {
+                                                        if ($current == 'statistiques') echo 'current';
+                                                    }
+                                                    ?>">
+                    <a href="/memoire/statistiques.php">
+                        Statistics
+                    </a>
+                </li>
+            <?php endif; ?>
             <li class="flex-center">
                 <div class="user-settings dropdown-button ">
                     <i class="fa-solid fa-gear "></i>

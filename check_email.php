@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Email content
         $to = $email;
-        $subject = 'Your Subject';
+        $subject = 'Reset password';
         $form_file = "email_validation.php";
         $message = file_get_contents("$form_file");
         $token = bin2hex(random_bytes(32));
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Subject = $subject;
         $mail->msgHTML($message);
         $mail->Body = $message;
-        $id = $_SESSION['id'];
+        $id = $_SESSION['id1'];
         $sql = "INSERT into sessions(user_id,token,date_session) values(?,?,NOW());";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "ss", $id, $token);
@@ -68,18 +68,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" type="text/css" href="CSS/abdo.css">
+    <link rel="stylesheet" href="CSS/all.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 
-<body>
-    <div class="test">
-        <form method="post">
-            <h1>Check Your Email</h1>
-            <p>Please Check the email adress</p>
-            <p><?php print $_SESSION["email"]; ?> for the instructions to reset Your password</p>
-            <button name="resand">Resend email</button>
+<body class="flex flex-j-center">
+    <div class="">
+        <form method="post" class="flex flex-column g-10" style="padding-top:100px;">
+            <h1 class="self-center text-center">Check Your Email</h1>
+            <p class="self-center text-center">Please Check the email adress</p>
+            <span class="highlighted self-center text-center">
+                <?php print $_SESSION["email"]; ?>
+            </span>
+            <p class="self-center text-center">for the instructions to reset Your
+                password
+            </p>
+            <button class="btn">Resend email</button>
         </form>
     </div>
 

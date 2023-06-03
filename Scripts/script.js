@@ -1,29 +1,32 @@
 
 //#region Gear on-click
-const settingsButtons = document.querySelectorAll(".dropdown-button");
-const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+let settingsContainer = document.querySelectorAll('.dropdown-button')
+let dropdownMenus = document.querySelectorAll(".dropdown-menu");
 let currentButton = null;
 let currentDropdown = null;
-
-settingsButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        currentButton = button;
-        currentDropdown = button.children[1];
-        dropdownMenus.forEach(d => {
-            if (d !== currentDropdown) {
-                d.parentElement.classList.remove('higher-prio')
-                d.classList.remove("shown")
-            }
-        })
-        currentButton.classList.toggle("higher-prio");
-        currentDropdown.classList.toggle("shown");
-    });
+settingsContainer.forEach(e => {
+    e.addEventListener('click', event => dropDownOnClick(event, e));
 });
 
-window.addEventListener("click", function (event) {
+function dropDownOnClick(event, element) {
+    const dropdownButton = element;
+    if (currentButton !== null && currentButton !== dropdownButton) {
+        currentButton.classList.remove('higher-prio');
+        currentDropdown.classList.remove('shown');
+    }
+    currentButton = dropdownButton;
+    currentDropdown = currentButton.children[1];
+    currentDropdown.classList.toggle('shown');
+    currentButton.classList.toggle('higher-prio');
+}
+window.addEventListener('click', function (event) {
+    const target = event.target;
     if (currentButton !== null && !currentButton.contains(event.target) && !currentDropdown.contains(event.target)) {
-        currentDropdown.classList.remove("shown");
-        currentButton.classList.remove("higher-prio");
+        const dropdowns = document.querySelectorAll('.dropdown-menu');
+        const buttons = document.querySelectorAll('.dropdown-button');
+
+        dropdowns.forEach(dropdown => dropdown.classList.remove('shown'));
+        buttons.forEach(button => button.classList.remove('higher-prio'));
     }
 });
 
@@ -35,27 +38,24 @@ const searchResultsContainer = document.querySelector('.liste-etudiants')
 if (searchInput) {
     searchInput.addEventListener("input", function () {
         const searchTerm = searchInput.value;
-        var classeID = document.getElementById('classeID').innerHTML;
-        if (searchTerm.length > 0) {
-            const xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    searchResultsContainer.innerHTML = this.responseText;
-                }
-            };
-            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=yes&id_classe=${classeID}`);
-            xhr.send();
-        }
-        else {
-            const xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    searchResultsContainer.innerHTML = this.responseText;
-                }
-            };
-            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=no&id_classe=${classeID}`);
-            xhr.send();
-        }
+        var result = document.getElementById('searchType').innerHTML.split("_");
+        let type = result[0]
+        let id = result[1];
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                searchResultsContainer.innerHTML = this.responseText;
+                let settingsContainer = document.querySelectorAll('.dropdown-button')
+                settingsContainer.forEach(e => {
+                    e.addEventListener('click', event => dropDownOnClick(event, e));
+                });
+            }
+        };
+        if (searchTerm.length > 0)
+            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=yes&id=${id}&type=${type}`);
+        else
+            xhr.open("GET", `/memoire/search.php?q=${searchTerm}&parse=no&id=${id}&type=${type}`);
+        xhr.send();
     });
 }
 //#endregion
@@ -71,4 +71,21 @@ for (let i = 2; i <= 11; i++) {
         document.head.appendChild(style);
     }
 }
+//#endregion
+
+//#region Confirm display
+const myDialog = document.getElementById('myDialog');
+const showDialogButton = document.querySelectorAll(".showDialogButton");
+const closeDialogButton = document.getElementById('closeDialog');
+
+showDialogButton.forEach(e => {
+    e.addEventListener('click', () => {
+        myDialog.showModal();
+    })
+});
+
+closeDialogButton.addEventListener('click', () => {
+    myDialog.close();
+});
+
 //#endregion

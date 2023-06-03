@@ -3,33 +3,44 @@
 
 <head>
     <title>Document</title>
+
 </head>
 
-<body style=" margin: 0;
-margin-left: 20px;
-padding: 0;
-height: 100vh;
-overflow: hidden;
-font-family: 'proxima nova', sans-serif; background-color: #fff;">
-    <h1 style="font-weight: 400;
-    font-size: 1.8rem;
-    text-align: left;
-    color: #2d333a;"> <strong>Reset password</strong> </h1>
-    <p style="color:#2d333a;">A password change has been requested for your account. If this was you, please use the link below to reset your
-        password</p>
-    <a href="{reset_password_url}" style="display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 15%;
-    height: 0.9cm;
-    background-color: #10a37f;
-    font-weight: 500;
-    border: 1px solid;
-    font-size: 14px;
-    border-radius: 6px;
-    color: white;
-    transition: 0.5s;
-    text-decoration: none;">reset password</a>
+<body>
+    <main class="wrapper" style="width:100%;table-layout:fixed;background-color:#cccccc;
+    font-family: proxima nova, sans-serif;color: #3e4357">
+        <table class=" main" width="100%" style='background-color:#ffffff;margin:0 auto;width:100%;max-width:600px;border-spacing:0;font-family:"proxima nova", sans-serif;color:#171a1b;'>
+            <tr>
+                <td class="center" style="text-align:center;">
+                    <a href="{reset_password_url}" style="color:unset;text-decoration:none;">
+                        <img src="https://i.ibb.co/X44tQXp/logo.png" style="width:50px!important;" alt="Image">
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="center" style="text-align:center;">
+                    <a class="title" href="{reset_password_url}" style="color:unset;text-decoration:none;color:#5ca5e5;font-size:40px;margin:0;font-family: proxima nova, sans-serif">Ehealth</a>
+                </td>
+            </tr>
+            <tr>
+                <td class="center" style="text-align:center;">
+                    <h2 style="font-family: proxima nova, sans-serif;color: #3e4357">Reset password</h2>
+                </td>
+            </tr>
+            <tr>
+                <td class="center" style="text-align:center;">
+                    <h3 style="font-family: proxima nova, sans-serif;color: #3e4357">A password change has been requested for your account. If this was you, please use the link below to reset your
+                        password</h3>
+                </td>
+            </tr>
+            <tr>
+                <td class="center" height="50px" style="text-align:center;">
+                    <a href="{reset_password_url}" class="btn" style="color:unset;text-decoration:none;background-color:#5ca5e5;color:white;margin-top:10px;border-radius:5px;border:none;font-size:20px;padding:10px;font-family: proxima nova, sans-serif;">Go
+                        Reset password</a>
+                </td>
+            </tr>
+        </table>
+    </main>
 </body>
 
 </html>

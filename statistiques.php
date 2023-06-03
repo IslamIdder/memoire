@@ -5,6 +5,7 @@ if (!isset($_SESSION["id"])) {
 }
 require_once('config.php');
 $id =  $_SESSION['id'];
+
 if ($_SESSION['access_type'] == 'docteur')
     $query = "docteurs.id_docteur";
 else if ($_SESSION['access_type'] == 'directeur')

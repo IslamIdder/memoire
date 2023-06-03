@@ -5,6 +5,7 @@ if (!isset($_SESSION["id"])) {
 }
 $id_directeur = $_SESSION['id'];
 ?>
+<div style="display:none" id="searchType"><?= "director-front_" . $id_directeur ?></div>
 <!DOCTYPE html>
 <html lang="en">
 

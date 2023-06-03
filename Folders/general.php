@@ -1,9 +1,10 @@
 <?php session_start();
-function checkSet(&$value)
-{
-    if (isset($value))
-        return $value . "disabled";
-}
+// function checkSet(&$value)
+// {
+//     if (isset($value))
+//         return $value . "disabled";
+// }
+include_once('../functions.php');
 $view = false;
 if (isset($_GET['id_visite'])) {
     $id_visite = $_GET['id_visite'];
@@ -22,28 +23,27 @@ if (isset($_GET['id_visite'])) {
     $view = true;
     $maladies = array("neurologique" => "disabled ", "rachis" => "disabled ", "genital" => "disabled ", "orl" => "disabled ", "urinaire" => "disabled ", "ophalmique" => "disabled ", "endocrinien" => "disabled ", "cardio" => "disabled ", "respiratoire" => "disabled ", "peau" => "disabled ", "digestif" => "disabled ");
     $antecedents = array("asthme" => "disabled  ", "diabete" => "disabled  ", "epilepsie" => "disabled  ", "hospitalisation" => "disabled  ");
-    $att = "disabled value=\"";
     while ($row = mysqli_fetch_assoc($result)) {
         $nom = $row['nom'];
         $prenom = $row['prenom'];
-        $age = $att . $row['age'] . "\"";
-        $height = $att . $row['height'] . "\"";
-        $weight = $att . $row['weight'] . "\"";
-        $tention = $att . $row['tention'] . "\"";
-        $od = $att . $row['visuelle_OD'] . "\"";
-        $og = $att . $row['visuelle_OG'] . "\"";
-        $cause = $att . $row['cause'] . "\"";
+        $age = $row['age'];
+        $height = $row['height'];
+        $weight = $row['weight'];
+        $tention = $row['tention'];
+        $od = $row['visuelle_OD'];
+        $og = $row['visuelle_OG'];
+        $cause = $row['cause'];
         if (isset($row['nom_antecedent']))
             if ($row['nom_antecedent'] == 'hospitalisation')
-                $date_hos = $att . $row['date_antecedent'] . "\"";
+                $date_hos = $row['date_antecedent'];
             else if ($row['nom_antecedent'] == 'diabete')
-                $date_dia = $att . $row['date_antecedent'] . "\"";
+                $date_dia = $row['date_antecedent'];
             else if ($row['nom_antecedent'] == 'asthme')
-                $freq_as = $att . $row['frequence'] . "\"";
+                $freq_as = $row['frequence'];
             else if ($row['nom_antecedent'] == 'epilepsie')
-                $freq_ep = $att . $row['frequence'] . "\"";
+                $freq_ep = $row['frequence'];
         if (isset($row['nom_antecedent']))
-            $antecedents[$row['nom_antecedent']] = " disabled checked ";
+            $antecedents[$row['nom_antecedent']] .= " disabled checked ";
         if (isset($row['nom_maladie']))
             $maladies[$row['nom_maladie']] .= " disabled checked ";
     }
@@ -130,6 +130,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error: " . $stmt->error;
         }
     }
+    require_once("../send_message.php");
+    sand_mail($id_student);
     header("Location:dossier.php?id=" . $id_student);
     exit;
 }
@@ -154,42 +156,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="input-group-container flex flex-column">
                 <label class="mb-10">Information de l'élève:</label>
                 <div class="flex flex-column g-20">
-                    <div class="input_box">
-                        <input class="input" type="text" autocomplete="off" <?= checkSet($age) ?> placeholder=" " name="age" required>
-                        <label class="label">Age</label>
-                    </div>
-                    <div class="input_box">
-                        <input class="input" type="text" autocomplete="off" <?= checkSet($height) ?> placeholder=" " name="height" required>
-                        <label class="label">Height</label>
-                    </div>
-                    <div class="input_box">
-                        <input class="input" type="text" autocomplete="off" <?= checkSet($weight) ?> placeholder=" " name="weight" required>
-                        <label class="label">Weight</label>
-                    </div>
+                    <?= createInputField("age", "age", "text", "Age", setValueAndDisable($age), "required") ?>
+                    <?= createInputField("height", "height", "text", "Height(cm)", setValueAndDisable($height), "required") ?>
+                    <?= createInputField("weight", "weight", "text", "Weight(kg)", setValueAndDisable($weight), "required") ?>
                 </div>
             </div>
             <div class="input-group-container flex flex-column ">
                 <label class="mb-10 mt-10">Tension Arteriellle:</label>
                 <div class="va-header">
-                    <div class="input_box">
-                        <input class="input" type="text" autocomplete="off" <?= checkSet($tention) ?> placeholder=" " name="tention" required>
-                        <label class="label">Tention</label>
-                    </div>
+                    <?= createInputField("tention", "tention", "text", "Tention", setValueAndDisable($age), "required") ?>
                 </div>
             </div>
             <div class="input-group-container flex flex-column">
                 <label class="mb-10 mt-10">Etat visuel:</label>
                 <div class="flex g-20 flex-column">
-
-                    <div class="input_box">
-                        <input class="input" type="text" autocomplete="off" <?= checkSet($od) ?> placeholder=" " name="od" required>
-                        <label class="label">Acuité OD</label>
-                    </div>
-
-                    <div class="input_box">
-                        <input class="input" type="text" autocomplete="off" <?= checkSet($og) ?> placeholder=" " name="og" required>
-                        <label class="label">Acuité OG</label>
-                    </div>
+                    <?= createInputField("od", "od", "text", "Acuité OD", setValueAndDisable($od), "required") ?>
+                    <?= createInputField("og", "og", "text", "Acuité OG", setValueAndDisable($og), "required") ?>
                 </div>
             </div>
             <?php if ($view != true) : ?>
@@ -207,10 +189,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="flex flex-column g-10" id="id_1" style="display:none;">
                     <div class="input_box">
-                        <input class="input" type="text" <?= checkSet($cause) ?> autocomplete="off" placeholder=" " name="cause_hospitalisation">
+                        <input class="input" type="text" <?= setValueAndDisable($cause) ?> autocomplete="off" placeholder=" " name="cause_hospitalisation">
                         <label class="label">Cause</label>
                     </div>
-                    <input class="input-field" type="date" <?= checkSet($date_hos) ?> name="date_hospitalisation" placeholder="date">
+                    <input class="input-field" type="date" <?= setValueAndDisable($date_hos) ?> name="date_hospitalisation" placeholder="date">
                 </div>
             </div>
             <div class="flex flex-column g-10">
@@ -220,7 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="flex flex-column" id="id_2" style="display:none;">
                     <div class="input_box">
-                        <input class="input" type="text" <?= checkSet($freq_ep) ?> autocomplete="off" placeholder=" " name="frequence_epilepsie">
+                        <input class="input" type="text" <?= setValueAndDisable($freq_ep) ?> autocomplete="off" placeholder=" " name="frequence_epilepsie">
                         <label class="label">Frequence</label>
                     </div>
                 </div>
@@ -233,7 +215,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="flex flex-column" id="id_3" style="display:none;">
                     <div class="input_box">
-                        <input class="input" type="text" <?= checkSet($freq_as) ?> autocomplete="off" placeholder=" " name="frequence_asthme">
+                        <input class="input" type="text" <?= setValueAndDisable($freq_as) ?> autocomplete="off" placeholder=" " name="frequence_asthme">
                         <label class="label">Frequence</label>
                     </div>
                 </div>
@@ -244,7 +226,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label class="inp-cbx" for="diabete">Diabete<span>
                 </div>
                 <div class="flex flex-column" id="id_4" style="display:none;">
-                    <input class="input-field popup" <?= checkSet($date_dia) ?> type="date" name="date_diabete" placeholder="date de debut">
+                    <input class="input-field popup" <?= setValueAndDisable($date_dia) ?> type="date" name="date_diabete" placeholder="date de debut">
                 </div>
             </div>
         </div>

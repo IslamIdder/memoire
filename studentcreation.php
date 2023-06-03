@@ -1,23 +1,58 @@
 <?php
 session_start();
+include_once 'functions.php';
 if (!isset($_SESSION["id"])) {
     header("location: login.php");
 }
+// function checkSet(&$value)
+// {
+//     if (isset($value))
+//         return $value;
+//     else {
+//         return '';
+//     }
+// }
 require_once('config.php');
 $id_directeur = $_SESSION['id'];
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $surname = $_POST["surname"];
-    $classe = $_POST["classe"];
-    $wilaya = $_POST["wilaya"];
-    $date = $_POST["dob"];
-    $id = $_POST["reg-num"];
-    $stmt = $conn->prepare("INSERT INTO etudiant (id_etudiant, nom, prenom,date_naissance,wilaya,classe) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssss", $id, $name, $surname, $date, $wilaya, $classe);
+$title = "Add a student";
+if (isset($_GET['id'])) {
+    $id_student = $_GET['id'];
+    $title = "Modify a student";
+    $stmt = $conn->prepare("SELECT * from etudiant WHERE id_etudiant=?");
+    $stmt->bind_param("i", $id_student);
     $stmt->execute();
-    header("Location: Folders/dossier.php?id=" . $id);
-    exit;
-    $conn->close();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET['id'])) {
+        $name = $_POST["name"];
+        $surname = $_POST["surname"];
+        $classe = $_POST["classe"];
+        $wilaya = $_POST["wilaya"];
+        $date = $_POST["dob"];
+        $stmt = $conn->prepare("UPDATE etudiant SET nom=?, prenom=?,date_naissance=?,wilaya=? where id_etudiant=?");
+        if (!$stmt)
+            die($conn->error);
+        $stmt->bind_param("ssssi",  $name, $surname, $date, $wilaya, $id_student);
+        $stmt->execute();
+        header("Location: Folders/dossier.php?id=" . $id_student);
+        $conn->close();
+        exit;
+    }
+} else {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $name = $_POST["name"];
+        $surname = $_POST["surname"];
+        $classe = $_POST["classe"];
+        $wilaya = $_POST["wilaya"];
+        $date = $_POST["dob"];
+        $id = $_POST["reg-num"];
+        $stmt = $conn->prepare("INSERT INTO etudiant (id_etudiant, nom, prenom,date_naissance,wilaya,classe) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssss", $id, $name, $surname, $date, $wilaya, $classe);
+        $stmt->execute();
+        header("Location: Folders/dossier.php?id=" . $id);
+        $conn->close();
+        exit;
+    }
 }
 
 ?>
@@ -35,20 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <?php include('nav-bar.php') ?>
-    <div class="flex-center max-height" style="margin-top:auto" ;>
-        <form method="post" class="form flex flex-column flex-j-center">
-            <h1 class="form-title">Ajouter un etudiant</h1>
-            <div class="input-container relative">
-                <input type="text" autocomplete="off" id="name" pattern="[A-Za-z ]+" name="name" class="input" required>
-                <div id="customErrorMessage" class="error-message"></div>
-                <label class="lbl" for="name" class="test">Nom</label>
-            </div>
+    <div class="flex flex-j-center max-height" style="margin-top:auto" ;>
+        <form method="post" class="form flex g-30 flex-column ">
+            <h1 class="form-title"><?= $title ?></h1>
+            <?= createInputField("name", "name", "text", "Name", setValue($row['nom']), "required") ?>
+            <?= createInputField("surname", "surname", "text", "Family name", setValue($row['prenom']), "required") ?>
             <div class="input-container">
-                <input type="text" autocomplete="off" id="surname" pattern="[A-Za-z ]+" name="surname" class="input" required>
-                <label class="lbl" for="surname">Prénom</label>
-            </div>
-            <div class="input-container">
-                <input type="date" autocomplete="off" id="dob" name="dob" class="input" required>
+                <input type="date" autocomplete="off" id="dob" name="dob" class="input" <?= checkSet($row['date_naissance']) ?> required>
                 <label class="lbl" for="dob">Date de naissance</label>
             </div>
             <div class="input-container">
@@ -57,7 +85,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $wilayas = array("Adrar", "Chlef", "Laghouat", "Oum El Bouaghi", "Batna", "Béjaïa", "Biskra", "Béchar", "Blida", "Bouira", "Tamanrasset", "Tébessa", "Tlemcen", "Tiaret", "Tizi Ouzou", "Alger", "Djelfa", "Jijel", "Sétif", "Saïda", "Skikda", "Sidi Bel Abbès", "Annaba", "Guelma", "Constantine", "Médéa", "Mostaganem", "M'Sila", "Mascara", "Ouargla", "Oran", "El Bayadh", "Illizi", "Bordj Bou Arréridj", "Boumerdès", "El Tarf", "Tindouf", "Tissemsilt", "El Oued", "Khenchela", "Souk Ahras", "Tipaza", "Mila", "Aïn Defla", "Naâma", "Aïn Témouchent", "Ghardaïa", "Relizane");
                     $i = 1;
                     foreach ($wilayas as $wilaya) {
-                        echo '<option value="' . $wilaya . '">' . $i . ' ' . $wilaya . '</option>';
+                        if ($wilaya == $row['wilaya'])
+                            echo '<option selected value="' . $wilaya . '">' . $i . ' ' . $wilaya . '</option>';
+                        else
+                            echo '<option value="' . $wilaya . '">' . $i . ' ' . $wilaya . '</option>';
                         $i++;
                     }
                     ?>
@@ -81,6 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $classes[] = $row['nom_classe'];
                     }
                     foreach ($classes as $classe) {
+                        if ($classe == $row['id_classe'])
+                            echo '<option selected value="' . $classe . '">' . $classe . '</option>';
                         echo '<option value="' . $classe . '">' . $classe . '</option>';
                     }
                     ?>
@@ -102,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const errorMessage = document.getElementById('customErrorMessage');
 
         inputField.addEventListener('invalid', function(event) {
-            event.preventDefault(); // Prevent the default browser error message from appearing
+            event.preventDefault();
             errorMessage.textContent = 'Please enter only alphabetical characters.';
             errorMessage.style.display = 'block';
         });

@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
         }
     }
+    require_once("../send_message.php");
+    sand_mail($id_student);
     header('Location: dossier.php?id=' . $id_student);
     exit();
 }

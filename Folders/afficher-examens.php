@@ -4,6 +4,11 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
+function format($date)
+{
+    return date("d-m-Y", strtotime($date));
+}
+
 $stmt = $conn->prepare("SELECT * FROM visites
         INNER JOIN etudiant ON visites.id_etudiant = etudiant.id_etudiant
         INNER JOIN classe ON etudiant.id_classe = classe.id_classe

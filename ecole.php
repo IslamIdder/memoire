@@ -5,6 +5,7 @@ if (!isset($_SESSION["id"])) {
 }
 $id_ecole = $_GET['id'];
 ?>
+<div style="display:none;" id="searchType"><?= "ecole_" . $id_ecole ?></div>
 <!DOCTYPE html>
 <html lang="en">
 

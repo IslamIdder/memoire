@@ -3,10 +3,9 @@ session_start();
 if (!isset($_SESSION["id"])) {
     header("location: login.php");
 }
-if (!isset($_GET['id']))
-    header("location: parent-front.php?id=" . $_SESSION['id']);
-$id_parent = $_GET['id'];
+$id_parent = $_SESSION['id'];
 ?>
+<div style="display:none" id="searchType"><?= "parent_" . $id_parent ?></div>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,7 +39,7 @@ $id_parent = $_GET['id'];
         $sql = "SELECT * FROM etudiant
         INNER JOIN parent
         on etudiant.id_parent= parent.id_parent
-        where parent.id_parent = " . $id_parent;
+        where parent.id_parent = '$id_parent'";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {

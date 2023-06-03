@@ -101,18 +101,14 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
                     </h1>
                     <div class="flex flex-a-center flex-j-sb">
                         <div class="fb-70">Full name:<span class="highlighted"> <?php echo $row['nom'] . " " . $row['prenom'] ?></span></div>
-                        <!-- <div class="info-right">Prénom du père:</div> -->
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
                         <div class="fb-70">Born on: <span class="highlighted"><?php echo $row['date_naissance'] . " "  ?></span></div>
                         <div class="info-right">in: <span class="highlighted"><?php echo $row['wilaya'] ?></span></div>
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
-                        <!-- <div class="">Adresse des parents:</div> -->
                     </div>
                     <div class="flex flex-a-center flex-j-sb">
-                        <!-- <div class="fb-70">Profession des parents:Père:</div> -->
-                        <!-- <div class="info-right">Mère:</div> -->
                     </div>
                     <div class="table">
                         <h1 class="table-element span-all">
@@ -200,7 +196,7 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
                 </div>
             </div>
             <?php include('afficher-examens.php'); ?>
-            <!-- <div class="dossier  flex flex-j-center">
+            <div class="dossier  flex flex-j-center">
                 <div class="page-container flex flex-column ">
                     <div class="chartCard">
                         <div class="chartBox">
@@ -253,7 +249,7 @@ function checkVaccine($i, $vaccinations, &$fait, &$refait, &$obs)
                         }
                     </style>
                 </div>
-            </div> -->
+            </div>
             <?php include 'afficher-visites-dentaires.php';  ?>
             <?php include 'afficher-troubles.php';  ?>
         </div>

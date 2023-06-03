@@ -1,6 +1,6 @@
 //#region Medical folder scrolling
 const dossier = document.querySelector('.slider')
-var bodyWidth = document.querySelector('.dossier').offsetWidth;
+var bodyWidth = document.querySelector('.dossier').offsetWidth + 0.35;
 const numSlides = dossier.children.length;
 const sliderIconsContainer = document.querySelector('.slider-icons');
 console.log(sliderIconsContainer)
@@ -15,9 +15,17 @@ var Index = parseInt(
     getComputedStyle(dossier).getPropertyValue("--dossier-index")
 )
 sliderIcons[Index].classList.add("active")
-
+sliderIcons.forEach((e, i) => {
+    e.addEventListener('click', () => {
+        dossier.style.setProperty('--dossier-index', i)
+        sliderIcons.forEach(icon => {
+            icon.classList.remove('active')
+        });
+        sliderIcons[i].classList.add('active')
+    })
+})
 window.addEventListener('resize', function () {
-    bodyWidth = document.querySelector('.dossier').offsetWidth;
+    bodyWidth = document.querySelector('.dossier').offsetWidth + 0.35;
     dossier.style.setProperty("--body-width", bodyWidth + "px")
 });
 dossier.style.setProperty("--body-width", bodyWidth + "px")
@@ -75,21 +83,17 @@ document.addEventListener('keydown', (event) => {
 
 })
 document.addEventListener('wheel', function (event) {
-    var delta = event.deltaY || event.detail || (-event.wheelDelta);
-    var scrollDirection = delta > 0 ? 'down' : 'up';
+    const scrollSensitivity = 0.1;
+    const delta = event.deltaY * scrollSensitivity;
+    const scrollDirection = delta > 0 ? 'down' : 'up';
+
     if (scrollDirection === 'up') {
-        oniconClick(movePrevious)
+        oniconClick(movePrevious);
     } else {
-        oniconClick(moveNext)
+        oniconClick(moveNext);
     }
+
     event.preventDefault();
-})
-document.querySelectorAll('date').forEach(d => {
-    d.addEventListener('focus', function () {
-        this.type = 'date';
-    })
-    d.addEventListener('blur', function () {
-        this.type = 'date';
-    })
-})
+}, { passive: false });
+
 //#endregion
