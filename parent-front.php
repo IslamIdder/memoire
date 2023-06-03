@@ -23,11 +23,12 @@ $id_parent = $_SESSION['id'];
     include "nav-bar.php";
     include "utility.php";
     ?>
-    <div class="dossier-etudiant flex-center header ">
+    <div class="dossier-etudiant flex-center header">
+        <div class="flex-center" style="width:65px;">Image</div>
         <div class="display-info flex-center ">
-            <div class="student-info">ID student</div>
-            <div class="student-info">Nom </div>
-            <div class="student-info">Prenom </div>
+            <div class="student-info">Name</div>
+            <div class="student-info">Family name</div>
+            <div class="student-info">Inscription number</div>
         </div>
     </div>
     <div class="liste-etudiants flex-center flex-column">
